@@ -12,14 +12,14 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 /// @dev Do I keep track of token addresses?
 contract CollateralWallet is Pausable, Ownable{
     using SafeERC20 for IERC20;
-    //do i even need this?
-    //IERC20[] private tokens;
-    string public name;
+    IERC20[] public tokens;
+    string public walletName;
+    address public walletOwner;
     mapping(address => mapping(address => uint256)) private ffaToPledgedCollateralMapping;
     mapping(address => mapping(address => uint256)) private pledgedCollateralToFFAMapping;
     //add events here
-    constructor (string memory _name) {
-        name = _name;
+    constructor (string memory _walletName) {
+        walletName = _walletName;
     }
 
     /// @notice Sets new balance for given collateral token corresponding to given forward contract.
