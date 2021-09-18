@@ -1,0 +1,26 @@
+{
+  "name": "forwardexchange",
+  "version": "1.0.0",
+  "description": "A platform to create customizable forward contracts on blockchain.",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tamasan77/ForwardExchange.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tamasan77/ForwardExchange/issues"
+  },
+  "homepage": "https://github.com/tamasan77/ForwardExchange#readme",
+  "dependencies": {
+    "@chainlink/contracts": "^0.2.1",
+    "@openzeppelin/contracts": "^4.3.2"
+  }
+}
