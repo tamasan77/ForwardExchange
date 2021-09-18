@@ -12,9 +12,9 @@ import "../interfaces/IChainlinkOracle.sol";
 contract ChainlinkOracle is ChainlinkClient, Ownable,  IChainlinkOracle{
     using Chainlink for Chainlink.Request;
 
-    bool private isSignedResult;
-    uint256 private unsignedResult;
-    int256 private signedResult;
+    bool public isSignedResult;
+    uint256 public unsignedResult;
+    int256 public signedResult;
 
     address public oracleAddress;
     bytes32 public jobId;
@@ -50,9 +50,20 @@ contract ChainlinkOracle is ChainlinkClient, Ownable,  IChainlinkOracle{
         isSignedResult = _isSignedResult;
     }
 
+    /// @notice Receives ETH.
+    receive() external payable {
+        emit Received(msg.sender, msg.value);
+    }
+
+    /// @dev Lets contract hadle function calls dynamically. For future expendability.
+    fallback () external payable {
+
+    }
+
     /// @notice Create Chainlink request with uint256 job.
     /// @dev For underlying price oracle apiURLParameters is empty string.
     /// @param apiURLParameters Parameters added to API URL.
+    /// @return requestId The ID of the request
     function requestIndexPrice(string memory apiURLParameters)
         external
         override
@@ -64,91 +75,75 @@ contract ChainlinkOracle is ChainlinkClient, Ownable,  IChainlinkOracle{
         } else {
             request = buildChainlinkRequest(jobId, address(this), this.fulfillUnsigned.selector);
         }
-
         request.add("get", concetenateTwoStrings(apiBaseURL, apiURLParameters));
-        //set path to data
         request.add("path", apiPath);
         request.addInt("times", decimals);
-        //send request with given fee to the oracle
+        //ChainlinkRequested(bytes32 indexd id) is emitted
         requestId = sendChainlinkRequestTo(oracleAddress, request, fee);
-        emit RequestSent(oracleAddress, jobId, fee);
     }
 
-    //receive response as uint256
-    //recordChainlinkFulffilment ensures that only requesting oracle can fulfill
-    function fulfillSigned(bytes32 _requestId, int256 _result) external override recordChainlinkFulfillment(_requestId){
+    /// @notice Receive response in the form of int256.
+    /// @dev It may take up to 3-4 minutes for the job to be fulffilled.
+    /// @param _requestId ID of the request.
+    /// @param _result Result of GET request.
+    function fulfillSigned(bytes32 _requestId, int256 _result) 
+        external 
+        override 
+        recordChainlinkFulfillment(_requestId)
+    {
+        //emits ChainlinkFullfilled(bytes32 indexd id) event
         signedResult = _result;
-        emit Fulfilled(_requestId);
     }
 
-    function fulfillUnsigned(bytes32 _requestId, uint256 _result) external override recordChainlinkFulfillment(_requestId){
+    /// @notice Receive response in the form of uint256.
+    /// @dev It may take up to 3-4 minutes for the job to be fulffilled.
+    /// @param _requestId ID of the request.
+    /// @param _result Result of GET request.
+    function fulfillUnsigned(bytes32 _requestId, uint256 _result) 
+        external 
+        override
+        recordChainlinkFulfillment(_requestId)
+    {
+        //emits ChainlinkFullfilled(bytes32 indexd id) event
         unsignedResult = _result;
-        emit Fulfilled(_requestId);
     }
 
 
-    // withdrawLink allows the owner to withdraw any extra LINK on the contract
+    /// @notice Allows the owner to withdraw the LINK in this contract.
+    /// @dev Withdraw LINK after the forward contract is settled.
     function withdrawLink() external override onlyOwner {
         LinkTokenInterface link = LinkTokenInterface(chainlinkTokenAddress());
         uint256 linkBalance = link.balanceOf(address(this));
-        require(link.transfer(msg.sender, linkBalance), "Unable to withdraw");
+        require(link.transfer(msg.sender, linkBalance), "Withdraw err.");
         emit LinkWithdrawn(msg.sender, linkBalance);
     }
 
-    /*
-    //concatanate strings and add /  where needed for URL
-    function concetenateStringsForURL(string memory a, string memory b, string memory c, string memory d, string memory e) internal pure returns (string memory) {
-	    return string(abi.encodePacked(a,"/", b, "/", c, "/", d, "/", e));
-    }*/
-
-    /*
-    //parse uint to string
-    function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
-        if (_i == 0) {
-            return "0";
-        }
-        uint j = _i;
-        uint len;
-        while (j != 0) {
-            len++;
-            j /= 10;
-        }
-        bytes memory bstr = new bytes(len);
-        uint k = len;
-        while (_i != 0) {
-            k = k-1;
-            uint8 temp = (48 + uint8(_i - _i / 10 * 10));
-            bytes1 b1 = bytes1(temp);
-            bstr[k] = b1;
-            _i /= 10;
-        }
-        return string(bstr);
-    }*/
-
-    //concatanate two strings
-    function concetenateTwoStrings(string memory a, string memory b) internal pure returns(string memory) {
+    /// @notice Concetenates two strings into single string
+    /// @param a First string
+    /// @param b Second string
+    /// @return Resulting string
+    function concetenateTwoStrings(string memory a, string memory b) 
+        internal
+        pure 
+        returns(string memory) 
+    {
         return string(abi.encodePacked(a, b));
     }
 
-    //fallback function to receive eth
-    receive() external payable {
-        emit Received(msg.sender, msg.value);
+    /// @notice Sets the API path.
+    /// @param newAPIPath New API path to be set.
+    function setAPIPath(string memory newAPIPath) internal {
+        apiPath = newAPIPath;
     }
 
-    fallback () external payable {
-
-    }
-
+    /*
     function getUnsignedResult() external view returns (uint256) {
         return unsignedResult;
     }
 
     function getSignedResult() external view returns (int256) {
         return signedResult;
-    }
+    }*/
 
-    function setAPIPath(string memory newAPIPath) internal {
-        apiPath = newAPIPath;
-    }
 }
 

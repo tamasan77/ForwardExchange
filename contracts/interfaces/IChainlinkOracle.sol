@@ -5,8 +5,6 @@ pragma solidity ^0.8.6;
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 
 interface IChainlinkOracle {
-    event RequestSent(address oracleAddress, bytes32 jobId, uint256 fee);
-    event Fulfilled(bytes32 requestId);
     event LinkWithdrawn(address withdrawer, uint256 amount);
     event Received(address sender, uint256 amount);
 
