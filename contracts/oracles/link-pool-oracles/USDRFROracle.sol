@@ -3,6 +3,7 @@
 pragma solidity ^0.8.6;
 
 import "./LinkPoolIntOracle.sol";
+import "../../utils/StringManipLibrary.sol";
 
 /* Using https://www.quandl.com/data/USTREASURY/BILLRATES-Treasury-Bill-Rates
  * Risk free rate is usually considered to be equal to interest paid on 3-month T-bill
@@ -79,36 +80,11 @@ contract USDRFROracle is LinkPoolIntOracle {
          }
     }
 
+    /// @notice Update API path with maturity tranch index.
+    /// @param contractDurationInSeconds Time until expiry in seconds.
     function updateAPIPath(int contractDurationInSeconds)  external {
-         setAPIPath(concetanateStringUint(
+         setAPIPath(StringManipLibrary.concatenateTwoStrings(
                         _apiPathBase_, 
-                        calcMaturityTranchIndex(contractDurationInSeconds))); 
-    }
-
-    function concetanateStringUint(string memory a, uint b) internal pure returns (string memory){
-        return string(abi.encodePacked(a, uint2str(b)));
-    }
-
-    //parse uint to string
-    function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
-        if (_i == 0) {
-            return "0";
-        }
-        uint j = _i;
-        uint len;
-        while (j != 0) {
-            len++;
-            j /= 10;
-        }
-        bytes memory bstr = new bytes(len);
-        uint k = len;
-        while (_i != 0) {
-            k = k-1;
-            uint8 temp = (48 + uint8(_i - _i / 10 * 10));
-            bytes1 b1 = bytes1(temp);
-            bstr[k] = b1;
-            _i /= 10;
-        }
-        return string(bstr);
+                        StringManipLibrary.uint2str(calcMaturityTranchIndex(contractDurationInSeconds))));
     }
 }
