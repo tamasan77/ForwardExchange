@@ -9,15 +9,17 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 /// @title Collateral Wallet
 /// @author Tamas An
 /// @notice Wallet for holding ERC20 tokens as collateral.
-/// @dev Do I keep track of token addresses?
 contract CollateralWallet is Pausable, Ownable{
     using SafeERC20 for IERC20;
     IERC20[] public tokens;
+    mapping(address => bool) public containsTokens;
     string public walletName;
-    address public walletOwner;
-    mapping(address => mapping(address => uint256)) private ffaToPledgedCollateralMapping;
-    mapping(address => mapping(address => uint256)) private pledgedCollateralToFFAMapping;
-    //add events here
+    mapping(address => mapping(address => uint256)) private forwardToCollateralMapping;
+    //mapping(address => mapping(address => uint256)) private pledgedCollateralToForwardMapping;
+    mapping(address => mapping(address => address)) private forwardCollateralToOwnerMapping;
+    
+    event CollateralReturned(address collateralOwner, uint256 remainingBalance);
+
     constructor (string memory _walletName) {
         walletName = _walletName;
     }
@@ -34,8 +36,8 @@ contract CollateralWallet is Pausable, Ownable{
     {
         require(forwardContractAddress != address(0), "0 address");
         require(collateralTokenAddress != address(0), "0 address");
-        ffaToPledgedCollateralMapping[forwardContractAddress][collateralTokenAddress] = newBalance;
-        pledgedCollateralToFFAMapping[collateralTokenAddress][forwardContractAddress] = newBalance;
+        forwardToCollateralMapping[forwardContractAddress][collateralTokenAddress] = newBalance;
+        //pledgedCollateralToForwardMapping[collateralTokenAddress][forwardContractAddress] = newBalance;
     }
 
     /// @notice Gets balance of given collateral token corresponding to given forward contract.
@@ -49,20 +51,30 @@ contract CollateralWallet is Pausable, Ownable{
     {
         require(forwardContractAddress != address(0), "0 address");
         require(collateralTokenAddress != address(0), "0 address");
-        return ffaToPledgedCollateralMapping[forwardContractAddress][collateralTokenAddress];
+        return forwardToCollateralMapping[forwardContractAddress][collateralTokenAddress];
     }
 
     /// @notice Approve given spender with spending given amount of given token.
     /// @param collateralTokenAddress Address of collateral token
     /// @param spender Address of spender to be approved
     /// @param amount to be approved
-
     function approveSpender(address collateralTokenAddress, address spender, uint256 amount) 
         external 
     {
         require(spender != address(0), "0 address");
         require(collateralTokenAddress != address(0), "0 address");
         IERC20(collateralTokenAddress).approve(spender, amount);
+    }
+
+    function returnCollateral(address forwardContractAddress, address collateralTokenAddress) 
+        external 
+    {
+        address collateralOwner = forwardCollateralToOwnerMapping[forwardContractAddress]
+            [collateralTokenAddress];
+        uint256 remainingBalance = forwardToCollateralMapping[forwardContractAddress][collateralTokenAddress];
+        IERC20(collateralTokenAddress).approve(forwardContractAddress, 0);
+        IERC20(collateralTokenAddress).transfer(collateralOwner, remainingBalance);
+        emit CollateralReturned(collateralOwner, remainingBalance);
     }
 
 }

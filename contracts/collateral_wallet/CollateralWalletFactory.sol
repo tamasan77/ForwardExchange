@@ -8,16 +8,18 @@ import "./CollateralWallet.sol";
 /// @notice Factory for creating and storing collateral wallets
 contract CollateralWalletFactory {
     address[] public collateralWallets;
-    mapping(address => address) ownerToWallet;
 
-    event CreatedWallet(string name, address owner);
+    event CreatedWallet(string name);
 
-    function createCollateralWallet(string memory _walletName, address _owner) 
+    /// @notice Creates new collateral wallet with given name and owner.
+    /// @param _walletName name of wallet
+    function createCollateralWallet(string memory _walletName) 
         external
         returns (address collateralWalletAddress_) 
     {
-        require(_owner != address(0), "0 address");
-        collateralWalletAddress_ = address();
+        collateralWalletAddress_ = address(new CollateralWallet(_walletName));
+        collateralWallets.push(collateralWalletAddress_);
+        emit CreatedWallet(_walletName);
     }
 
 }
