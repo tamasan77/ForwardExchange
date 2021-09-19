@@ -66,6 +66,9 @@ contract CollateralWallet is Pausable, Ownable{
         IERC20(collateralTokenAddress).approve(spender, amount);
     }
 
+    /// @notice Returns collateral to it's owner.
+    /// @param forwardContractAddress Address of the forward contract.
+    /// @param collateralTokenAddress Address of the collateral token. 
     function returnCollateral(address forwardContractAddress, address collateralTokenAddress) 
         external 
     {
