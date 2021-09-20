@@ -45,6 +45,9 @@ contract ForwardContract is IForwardContract{
     address payable usdRiskFreeRateOracleAddress;
     uint8 internal rfrMaturityTranchIndex;
 
+    event SettledAtExpiration(int256 profitAndLoss);
+    event Defaulted(address defaultingParty);
+
     constructor(
             string memory _name, 
             string memory _symbol, 
@@ -162,17 +165,17 @@ contract ForwardContract is IForwardContract{
         timeForwardPriceRequested = block.timestamp;
     }
 
-    /// @notice Mark to market function that is called daily. Transfers gains/losses daily.
-    /// @param 
-    function markToMarket(uint256 currentForwardPrice) external override {
+    /// @notice Mark to market function that is called periodically to transfer gains/losses
+    /// 
+    function markToMarket() external {
         require(contractState == ContractState.Initiated, 
                 "Contract not initiated");
-        require(DateTimeLibrary.diffSeconds(timeForwardPriceRequested, block.timestamp));
+        require(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) > 0);
+        require(DateTimeLibrary.diffSeconds(timeForwardPriceRequested, block.timestamp) > 300, "mtom early err");
+        uint256 currentForwardPrice = LinkPoolValuationOracle(valuationOracleAddress).unsignedResult();
         uint256 newContractValue = currentForwardPrice * sizeOfContract;
         uint256 oldContractValue = prevDayClosingPrice * sizeOfContract;
         int256 contractValueChange = int256(newContractValue) - int256(oldContractValue);
-
-        //delivery within collateral wallets
         //In this case the amount to be transfered is in cents, not dollars due to 1:100 scaling
         if (contractValueChange > 0) {
             transferCollateralFrom(shortWallet, longWallet, 
@@ -184,9 +187,86 @@ contract ForwardContract is IForwardContract{
                                    collateralTokenAddress);
         }
 
-        //update prevDayClosingPrice to current price
         prevDayClosingPrice = currentForwardPrice;
         
-        emit MarkedToMarket(block.timestamp, contractValueChange, long, short);
+        //emit MarkedToMarket(block.timestamp, contractValueChange, long, short);
     }
+
+    /// @notice Transfers collateral from one collateral wallet to the other collateral wallet.
+    /// @param senderWalletAddress Address of the wallet from which collateral is transfered.
+    /// @param recipientWalletAddress Address of the wallet to which collateral is tranfered.
+    /// @param amount Amount of collateral to be transfered.
+    /// @param _collateralTokenAddress Address of the collateral token to transfer.
+    function transferCollateralFrom(address senderWalletAddress, 
+            address recipientWalletAddress, uint256 amount, 
+            address _collateralTokenAddress) public returns (bool transfered_){
+            /*
+            require(senderWalletAddress != address(0), 
+                    "0 address");
+            require(recipientWalletAddress != address(0), 
+                    "0 address");
+            require(recipientWalletAddress != senderWalletAddress, 
+                    "same wallet");
+            require(amount > 0, 
+                    "nonzero amount");*/
+            CollateralWallet senderWallet = CollateralWallet(senderWalletAddress);
+            CollateralWallet recipientWallet = CollateralWallet(recipientWalletAddress);
+            uint256 originalSenderMappedBalance = senderWallet.getMappedBalance(
+                                                                address(this), 
+                                                                _collateralTokenAddress);
+            require(originalSenderMappedBalance >= amount, 
+                    "balance insufficient");
+
+            //approval might need fixing
+            senderWallet.approveSpender(_collateralTokenAddress, 
+                                        address(this), amount);
+            IERC20(_collateralTokenAddress).transferFrom(senderWalletAddress, 
+                                                         recipientWalletAddress, 
+                                                         amount);
+
+            //deduct from sender balance mapping
+            unchecked {
+                uint256 newSenderMappedBalance = originalSenderMappedBalance - amount;
+                senderWallet.setNewBalance(address(this), _collateralTokenAddress, 
+                                           newSenderMappedBalance);
+            }
+
+            //add to recipient balance mapping
+            uint256 newRecipientMappedBalance = recipientWallet.getMappedBalance(
+                                                                    address(this), 
+                                                                    _collateralTokenAddress) 
+                                                                    + amount;
+            recipientWallet.setNewBalance(address(this), _collateralTokenAddress, 
+                                          newRecipientMappedBalance);
+ 
+            transfered_ = true;
+    }
+
+    /// @notice Settle and close contract at expiry.
+    /// 
+    function settleAtExpiration() external {
+        require(contractState == ContractState.Initiated, "wrong state");
+        require(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) > 0);
+        uint256 initialContractValue = initialForwardPrice * sizeOfContract;
+        uint256 finalContractValue = prevDayClosingPrice * sizeOfContract;
+        int profitAndLoss = int256(finalContractValue) - int256(initialContractValue);
+        contractState = ContractState.Settled;
+        emit SettledAtExpiration(profitAndLoss);
+    }
+
+    function defaultContract(address _defaultingParty) public {
+        require(((_defaultingParty == short) || (_defaultingParty == long)), "party err");
+        require(contractState == ContractState.Initiated, "state err");
+        require(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) > 0, "exp date err");
+        
+        if (_defaultingParty == short) {
+            transferCollateralFrom(shortWallet, longWallet, CollateralWallet(shortWallet).getMappedBalance(address(this), collateralTokenAddress), collateralTokenAddress);
+        } else {
+            transferCollateralFrom(longWallet, shortWallet, CollateralWallet(longWallet).getMappedBalance(address(this), collateralTokenAddress), collateralTokenAddress);
+        }
+        //change contract state and emit event
+        contractState = ContractState.Defaulted;
+        emit Defaulted(_defaultingParty);
+    }
+
 }
