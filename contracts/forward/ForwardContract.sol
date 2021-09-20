@@ -2,6 +2,7 @@
 pragma solidity ^0.8.6;
 
 import "../utils/DateTimeLibrary.sol";
+import "../utils/StringManipLibrary.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -135,35 +136,57 @@ contract ForwardContract is IForwardContract{
         initiated_ = true;
     }
 
-    //request annual risk free rate
+    /// @notice Make a request for risk free rate. Takes 2-3 min. to fulffill.
+    /// @dev result should be available in 2-3 min.
     function requestRiskFreeRate() internal {
-        USDRFROracle(usdRiskFreeRateOracleAddress).updateAPIPath(int(BokkyPooBahsDateTimeLibrary.diffSeconds(block.timestamp, expirationDate)));
+        USDRFROracle(usdRiskFreeRateOracleAddress).updateAPIPath(int(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate)));
         USDRFROracle(usdRiskFreeRateOracleAddress).requestIndexPrice("");//do I add my API key here??
     }
 
-    //set annual risk free rate once job is fulfilled
-    function setRiskFreeRate() internal {
-        annualRiskFreeRate = USDRFROracle(usdRiskFreeRateOracleAddress).getSignedResult();
-    }
-
-    //request underlying price
+    /// @notice Make a request underlying price. Takes 2-3 min. to fulffill.
+    /// @dev result should be available in 2-3 min.
     function requestUnderlyingPrice() internal {
         LinkPoolUintOracle(underlyingOracleAddress).requestIndexPrice("");
     }
 
-    //set underlying price once job is fulfilled
-    function setUnderlyingPrice() internal  view{
-        LinkPoolUintOracle(underlyingOracleAddress).getUnsignedResult();
-    }
-
-    //request forward price
+    uint256 internal timeForwardPriceRequested;
+    /// @notice Make a request for price of the forward. Takes 2-3 min. to fulffill.
+    /// @dev result should be available in 2-3 min.
     function requestForwardPrice() internal {
-        LinkPoolValuationOracle(valuationOracleAddress).requestIndexPrice(concetenateStringsForURL(uint2str(underlyingPrice), int2str(annualRiskFreeRate), uint2str(block.timestamp), uint2str(expirationDate)));
+        LinkPoolValuationOracle(valuationOracleAddress).requestIndexPrice(
+            StringManipLibrary.concatenateStringsForURL(
+                StringManipLibrary.uint2str(underlyingPrice), 
+                StringManipLibrary.int2str(annualRiskFreeRate), 
+                StringManipLibrary.uint2str(block.timestamp), 
+                StringManipLibrary.uint2str(expirationDate)));
+        timeForwardPriceRequested = block.timestamp;
     }
 
-    //set forward price once job is fulfilled
-    function getForwardPrice() internal view returns(uint256){
-        return LinkPoolValuationOracle(valuationOracleAddress).getUnsignedResult();
-    }
+    /// @notice Mark to market function that is called daily. Transfers gains/losses daily.
+    /// @param 
+    function markToMarket(uint256 currentForwardPrice) external override {
+        require(contractState == ContractState.Initiated, 
+                "Contract not initiated");
+        require(DateTimeLibrary.diffSeconds(timeForwardPriceRequested, block.timestamp));
+        uint256 newContractValue = currentForwardPrice * sizeOfContract;
+        uint256 oldContractValue = prevDayClosingPrice * sizeOfContract;
+        int256 contractValueChange = int256(newContractValue) - int256(oldContractValue);
 
+        //delivery within collateral wallets
+        //In this case the amount to be transfered is in cents, not dollars due to 1:100 scaling
+        if (contractValueChange > 0) {
+            transferCollateralFrom(shortWallet, longWallet, 
+                                   uint256(contractValueChange), collateralTokenAddress);
+        }
+        if (contractValueChange < 0) {
+            transferCollateralFrom(longWallet, shortWallet, 
+                                   uint256(-contractValueChange), 
+                                   collateralTokenAddress);
+        }
+
+        //update prevDayClosingPrice to current price
+        prevDayClosingPrice = currentForwardPrice;
+        
+        emit MarkedToMarket(block.timestamp, contractValueChange, long, short);
+    }
 }

@@ -43,4 +43,25 @@ library StringManipLibrary {
         }
         return string(bstr);
     }
+
+    /// @notice Concatenate strings with forward slashes in between.
+    /// @return Resulting string with slashes in between.
+    function concatenateStringsForURL(
+        string memory a, 
+        string memory b, 
+        string memory c, 
+        string memory d) internal pure returns (string memory) {
+	    return string(abi.encodePacked(a,"/", b, "/", c, "/", d));
+    }
+
+    /// @notice Parse int to sring.
+    /// @param _i int to be parsed
+    /// @return _intAsString Resulting string
+    function int2str(int _i) internal pure returns (string memory _intAsString) {
+        if (_i >= 0) {
+            return uint2str(uint(_i));
+        } else {
+            return string(abi.encodePacked("-", uint2str(uint(-_i))));
+        }
+    }
 }
