@@ -17,9 +17,9 @@ library DateTimeLibrary {
         pure 
         returns (uint _seconds) 
     {
-        require(fromTimestamp <= toTimestamp);
+        require(fromTimestamp <= toTimestamp, "timediff err");
         _seconds = toTimestamp - fromTimestamp;
     }
 
-    
+
 }

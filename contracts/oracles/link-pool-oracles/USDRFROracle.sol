@@ -84,7 +84,7 @@ contract USDRFROracle is LinkPoolIntOracle {
     /// @param contractDurationInSeconds Time until expiry in seconds.
     function updateAPIPath(int contractDurationInSeconds)  external {
          setAPIPath(StringManipLibrary.concatenateTwoStrings(
-                        _apiPathBase_, 
-                        StringManipLibrary.uint2str(calcMaturityTranchIndex(contractDurationInSeconds))));
+            _apiPathBase_, 
+            StringManipLibrary.uint2str(calcMaturityTranchIndex(contractDurationInSeconds))));
     }
 }
