@@ -6,13 +6,19 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 
-/// @title Collateral Wallet
+/// @title Personal Wallet
 /// @author Tamas An
 /// @notice Wallet for holding ERC20 tokens that can be transferred to collateral wallet.
 contract PersonalWallet is Pausable, Ownable {
     using SafeERC20 for IERC20;
     address[] public tokens;
     mapping(address => bool) public containsTokens;
+    string name;
+
+    constructor(string memory _name, address walletOwner) {
+        name = _name;
+        transferOwnership(walletOwner);
+    }
 
     /// @notice Adds new token ot the tokens array if it is not part of the array yet.
     /// @dev Use containsToken mapping to check if array already contains element or not.
