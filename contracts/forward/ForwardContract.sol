@@ -30,8 +30,7 @@ contract ForwardContract is IForwardContract{
     uint256 public expirationDate;
     uint256 public underlyingPrice;//scaled 1/100 ie. 45.07 -> 4507
     //collateral wallets
-    address private longWallet;
-    address private shortWallet;
+    address public collateralWallet;
     address private collateralTokenAddress;
     //MM(8%) + EM (2%) = IM (10%)
     uint256 public exposureMarginRate;
@@ -82,8 +81,7 @@ contract ForwardContract is IForwardContract{
         address _long, 
         address _short,
         uint256 _expirationDate,
-        address _longWallet, 
-        address _shortWallet, 
+        address _collateralWallet,
         uint _exposureMarginRate,
         uint _maintenanceMarginRate, 
         address _collateralTokenAddress) 
@@ -94,16 +92,13 @@ contract ForwardContract is IForwardContract{
         require(_long != address(0), "0 address");
         require(_short != address(0), "0 address");
         require(_long != _short, "same party");
-        require(_longWallet != address(0), "0 address");
-        require(_shortWallet != address(0), "0 address");
-        require(_longWallet != _shortWallet, "same address");
+        require(_CollateralWallet != address(0), "0 address");
         require(_maintenanceMarginRate != 0, "zero maintenance");
         
         long = _long;
         short = _short;
         expirationDate = _expirationDate;
-        longWallet = _longWallet;
-        shortWallet = _shortWallet;
+        collateralWallet = _collateralWallet;
         exposureMarginRate = _exposureMarginRate;
         maintenanceMarginRate = _maintenanceMarginRate;
         collateralTokenAddress = _collateralTokenAddress;
@@ -176,6 +171,7 @@ contract ForwardContract is IForwardContract{
         uint256 newContractValue = currentForwardPrice * sizeOfContract;
         uint256 oldContractValue = prevDayClosingPrice * sizeOfContract;
         int256 contractValueChange = int256(newContractValue) - int256(oldContractValue);
+        uint256 newMarginRequirement = newContractValue * (maintenanceMarginRate / )
         //In this case the amount to be transfered is in cents, not dollars due to 1:100 scaling
         if (contractValueChange > 0) {
             transferCollateralFrom(shortWallet, longWallet, 
@@ -191,24 +187,16 @@ contract ForwardContract is IForwardContract{
         
         //emit MarkedToMarket(block.timestamp, contractValueChange, long, short);
     }
-
+    /*
     /// @notice Transfers collateral from one collateral wallet to the other collateral wallet.
-    /// @param senderWalletAddress Address of the wallet from which collateral is transfered.
+    /// @param senderAddress Address of the wallet from which collateral is transfered.
     /// @param recipientWalletAddress Address of the wallet to which collateral is tranfered.
     /// @param amount Amount of collateral to be transfered.
     /// @param _collateralTokenAddress Address of the collateral token to transfer.
-    function transferCollateralFrom(address senderWalletAddress, 
+    function transferCollateralFrom(address senderAddress, 
             address recipientWalletAddress, uint256 amount, 
-            address _collateralTokenAddress) public returns (bool transfered_){
-            /*
-            require(senderWalletAddress != address(0), 
-                    "0 address");
-            require(recipientWalletAddress != address(0), 
-                    "0 address");
-            require(recipientWalletAddress != senderWalletAddress, 
-                    "same wallet");
-            require(amount > 0, 
-                    "nonzero amount");*/
+            address _collateralTokenAddress) public returns (bool transfered_)
+    {
             CollateralWallet senderWallet = CollateralWallet(senderWalletAddress);
             CollateralWallet recipientWallet = CollateralWallet(recipientWalletAddress);
             uint256 originalSenderMappedBalance = senderWallet.getMappedBalance(
@@ -240,7 +228,7 @@ contract ForwardContract is IForwardContract{
                                           newRecipientMappedBalance);
  
             transfered_ = true;
-    }
+    }*/
 
     /// @notice Settle and close contract at expiry.
     /// 
@@ -267,6 +255,13 @@ contract ForwardContract is IForwardContract{
         //change contract state and emit event
         contractState = ContractState.Defaulted;
         emit Defaulted(_defaultingParty);
+    }
+
+    function getLong() external view returns (address) {
+            return long;
+    }
+    function getShort() external view returns (address) {
+            return short;
     }
 
 }

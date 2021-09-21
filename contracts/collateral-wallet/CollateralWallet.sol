@@ -11,12 +11,15 @@ import "@openzeppelin/contracts/security/Pausable.sol";
 /// @notice Wallet for holding ERC20 tokens as collateral.
 contract CollateralWallet is Pausable, Ownable{
     using SafeERC20 for IERC20;
-    IERC20[] public tokens;
+    address[] public tokens;
+    address public forwardContracts;
     mapping(address => bool) public containsTokens;
     string public walletName;
-    mapping(address => mapping(address => uint256)) private forwardToCollateralMapping;
+    mapping(address => mapping(address => uint256)) private forwardToCollateralShortBalance;
+    mapping(address => mapping(address => uint256)) private forwardToCollateralLongBalance;
     //mapping(address => mapping(address => uint256)) private pledgedCollateralToForwardMapping;
-    mapping(address => mapping(address => address)) private forwardCollateralToOwnerMapping;
+    mapping(address => address) private forwardToShortAddress;
+    mapping(address => address) private forwardToLongAddress;
     
     event CollateralReturned(address collateralOwner, uint256 remainingBalance);
 
@@ -24,20 +27,22 @@ contract CollateralWallet is Pausable, Ownable{
         walletName = _walletName;
     }
 
-    /// @notice Sets new balance for given collateral token corresponding to given forward contract.
+    /// @notice Sets new balance for long and short parties for given forward contract.
     /// @param forwardContractAddress Address of forward contract for collateral.
     /// @param collateralTokenAddress Address of collateral token.
-    /// @param newBalance value to set balance to
+    /// @param newShortBalance value to set short balance to
+    /// @param newLongBalance value to set long balance to
     function setNewBalance(
         address forwardContractAddress, 
         address collateralTokenAddress, 
-        uint256 newBalance) 
+        uint256 newShortBalance,
+        uint256 newLongBalance) 
         external 
     {
         require(forwardContractAddress != address(0), "0 address");
         require(collateralTokenAddress != address(0), "0 address");
-        forwardToCollateralMapping[forwardContractAddress][collateralTokenAddress] = newBalance;
-        //pledgedCollateralToForwardMapping[collateralTokenAddress][forwardContractAddress] = newBalance;
+        forwardToCollateralShortBalance[forwardContractAddress][collateralTokenAddress] = newShortBalance;
+        forwardToCollateralLongBalance[forwardContractAddress][collateralTokenAddress] = newLongBalance;
     }
 
     /// @notice Gets balance of given collateral token corresponding to given forward contract.
