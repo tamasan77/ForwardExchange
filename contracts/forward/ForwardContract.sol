@@ -32,6 +32,8 @@ contract ForwardContract is IForwardContract{
     //collateral wallets
     address public collateralWallet;
     address private collateralTokenAddress;
+    address private longPersonalWallet;
+    address private shortPersonalWallet;
     //MM(8%) + EM (2%) = IM (10%)
     uint256 public exposureMarginRate;
     uint256 public maintenanceMarginRate;
@@ -72,8 +74,7 @@ contract ForwardContract is IForwardContract{
     /// @param _long Long party
     /// @param _short Short party
     /// @param _expirationDate Expiration date of the contract
-    /// @param _longWallet Address of the long party's wallet
-    /// @param _shortWallet Address of the short party's wallet
+    /// @param _collateralWallet Address of the collateral wallet
     /// @param _exposureMarginRate Exposure margin rate.
     /// @param _maintenanceMarginRate Maintenance margin rate.
     /// @param _collateralTokenAddress Address of the ERC20 collateral token.
@@ -166,22 +167,16 @@ contract ForwardContract is IForwardContract{
         require(contractState == ContractState.Initiated, 
                 "Contract not initiated");
         require(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) > 0);
-        require(DateTimeLibrary.diffSeconds(timeForwardPriceRequested, block.timestamp) > 300, "mtom early err");
-        uint256 currentForwardPrice = LinkPoolValuationOracle(valuationOracleAddress).unsignedResult();
+        require(DateTimeLibrary.diffSeconds(timeForwardPriceRequested, block.timestamp) > 300,
+            "mtom early err");
+        uint256 currentForwardPrice = 
+            LinkPoolValuationOracle(valuationOracleAddress).unsignedResult();
         uint256 newContractValue = currentForwardPrice * sizeOfContract;
         uint256 oldContractValue = prevDayClosingPrice * sizeOfContract;
         int256 contractValueChange = int256(newContractValue) - int256(oldContractValue);
-        uint256 newMarginRequirement = newContractValue * (maintenanceMarginRate / )
+        //uint256 newMarginRequirement = newContractValue * (maintenanceMarginRate / )
         //In this case the amount to be transfered is in cents, not dollars due to 1:100 scaling
-        if (contractValueChange > 0) {
-            transferCollateralFrom(shortWallet, longWallet, 
-                                   uint256(contractValueChange), collateralTokenAddress);
-        }
-        if (contractValueChange < 0) {
-            transferCollateralFrom(longWallet, shortWallet, 
-                                   uint256(-contractValueChange), 
-                                   collateralTokenAddress);
-        }
+        CollateralWallet(collateralWallet).collateralMToM(address(this), contractValueChange);
 
         prevDayClosingPrice = currentForwardPrice;
         
@@ -262,6 +257,14 @@ contract ForwardContract is IForwardContract{
     }
     function getShort() external view returns (address) {
             return short;
+    }
+
+    function getLongPersonalWallet() external view returns (address) {
+        return longPersonalWallet;
+    }
+
+    function getShortPersonalWallet() external view returns (address) {
+        return shortPersonalWallet;
     }
 
 }

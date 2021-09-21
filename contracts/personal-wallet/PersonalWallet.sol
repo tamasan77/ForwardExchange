@@ -14,6 +14,7 @@ contract PersonalWallet is Pausable, Ownable {
     address[] public tokens;
     mapping(address => bool) public containsTokens;
     string name;
+    mapping(address => bool) public contractCollateralApproved;
 
     constructor(string memory _name, address walletOwner) {
         name = _name;
@@ -36,6 +37,7 @@ contract PersonalWallet is Pausable, Ownable {
     /// @param amount Amount of tokens to be approved.
     function approveCollateral(address collateralWallet, address collateralToken, uint256 amount) public {
         require(containsTokens[collateralToken], "coll token err");
+        require(IERC20(collateralToken).balanceOf(address(this)) >= amount, "balance err");
         IERC20(collateralToken).approve(collateralWallet, amount);
     }
 }
