@@ -225,7 +225,9 @@ contract ForwardContract is IForwardContract{
             if (marginCallIssuedToShort) {
                 defaultContract(short, additionalOwedAmount);
             } else {
-                shortAmountOwed = (newMarginRequirement - CollateralWallet(collateralWallet).forwardToShortBalance(address(this))) + additionalOwedAmount;
+                shortAmountOwed = (newMarginRequirement - 
+                    CollateralWallet(collateralWallet).forwardToShortBalance(
+                        address(this))) + additionalOwedAmount;
                 marginCallIssuedToShort = true;
             }
         } else {
@@ -240,7 +242,9 @@ contract ForwardContract is IForwardContract{
                     defaultContract(long, additionalOwedAmount);
                 }
             } else {
-                longAmountOwed = (newMarginRequirement - CollateralWallet(collateralWallet).forwardToLongBalance(address(this))) + additionalOwedAmount;
+                longAmountOwed = (newMarginRequirement - 
+                    CollateralWallet(collateralWallet).forwardToLongBalance(
+                        address(this))) + additionalOwedAmount;
                 marginCallIssuedToLong = true;
             }
         } else {
@@ -251,7 +255,6 @@ contract ForwardContract is IForwardContract{
     }
 
     /// @notice Settle and close contract at expiry.
-    /// 
     function settleAtExpiration() external {
         require(contractState == ContractState.Initiated, "wrong state");
         require(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) > 0);
@@ -284,8 +287,11 @@ contract ForwardContract is IForwardContract{
                 CollateralWallet(collateralWallet).transferBalance(address(this), false, longBalance);
             }
         }
+        //withdraw link from oracles
+        LinkPoolUintOracle(underlyingOracleAddress).withdrawLink();
+        LinkPoolValuationOracle(valuationOracleAddress).withdrawLink();
+        USDRFROracle(valuationOracleAddress).withdrawLink();
         contractState = ContractState.Defaulted;
-
         emit Defaulted(_defaultingParty, amountStillOwed);
     }
 
