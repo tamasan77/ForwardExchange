@@ -17,7 +17,6 @@ import "../oracles/link-pool-oracles/USDRFROracle.sol";
 /// @notice Forward Contract with all relevant functionalities.
 contract ForwardContract is IForwardContract{
     using SafeERC20 for IERC20;
-
     enum ContractState {Created, Initiated, Settled, Defaulted}
     string public name;
     string public symbol;
@@ -34,7 +33,6 @@ contract ForwardContract is IForwardContract{
     address private collateralTokenAddress;
     address private longPersonalWallet;
     address private shortPersonalWallet;
-    //MM(8%) + EM (2%) = IM (10%)
     uint256 public exposureMarginRate;
     uint256 public maintenanceMarginRate;
     uint256 internal prevDayClosingPrice;
@@ -278,9 +276,27 @@ contract ForwardContract is IForwardContract{
         emit Defaulted(_defaultingParty, amountStillOwed);
     }
 
+    /* Getter functions */
+    /// @notice Returns current contract state.
+    /// @return Current contract state.
+    function getContractState() external view returns(string memory) {
+            if (contractState == ContractState.Created) {
+                return "Created";
+            } else if (contractState == ContractState.Initiated) {
+                return "Initiated";
+            } else if (contractState == ContractState.Settled) {
+                return "Settled";
+            } else if (contractState == ContractState.Defaulted) {
+                return "Defaulted";
+            } else {
+                return "state error";
+            }
+    }
+
     function getLong() external view returns (address) {
             return long;
     }
+    
     function getShort() external view returns (address) {
             return short;
     }
