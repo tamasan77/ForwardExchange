@@ -42,11 +42,11 @@ contract ForwardContract is IForwardContract{
     uint8 internal rfrMaturityTranchIndex;
     bool internal marginCallIssuedToShort;
     bool internal marginCallIssuedToLong;
-    uint256 internal owedAmount;
+    uint256 internal additionalOwedAmount;
 
     event SettledAtExpiration(int256 profitAndLoss);
     event Defaulted(address defaultingParty, uint256 amountSillOwed);
-    event MarkedToMarket(int256 contractValueChange);
+    event MarkedToMarket(int256 contractValueChange, uint256 shortOwedAmount, uint256 longOwedAmount);
 
     constructor(
             string memory _name, 
@@ -72,7 +72,7 @@ contract ForwardContract is IForwardContract{
             int(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate)));
         //Fund oracles with link
         LinkTokenInterface linkTokenAddress = LinkTokenInterface(
-            LinkPoolValuationOracle(valuationOracleAddress)._linkAddress());
+            LinkPoolValuationOracle(valuationOracleAddress)._linkAddress());//Link address on kovan
         linkTokenAddress.transfer(
             valuationOracleAddress, 
             ((DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) / 86400) + 5) * 
@@ -131,11 +131,17 @@ contract ForwardContract is IForwardContract{
         collateralTokenAddress = _collateralTokenAddress;
         marginCallIssuedToLong = false;
         marginCallIssuedToShort = false;
-        owedAmount = 0;
+        additionalOwedAmount = 0;
         uint256 initialCollateralRequirement = initialForwardPrice * 
             ((maintenanceMarginRate + exposureMarginRate) / 10000);
         // At this point the personal wallets must have approved the collateral wallet
         // to transfer given collateral.
+        require(
+            (IERC20(collateralTokenAddress).allowance(
+                longPersonalWallet, collateralWallet) > initialCollateralRequirement) && 
+            (IERC20(collateralTokenAddress).allowance(
+                shortPersonalWallet, collateralWallet) > initialCollateralRequirement), 
+            "allowance err");
         CollateralWallet(collateralWallet).setupInitialCollateral(
             address(this), shortPersonalWallet, longPersonalWallet, 
             collateralTokenAddress, initialCollateralRequirement);
@@ -181,20 +187,22 @@ contract ForwardContract is IForwardContract{
         require(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) > 0);
         require(DateTimeLibrary.diffSeconds(timeForwardPriceRequested, block.timestamp) > 300,
             "mtom early err");
-        if (owedAmount > 0) {
+        if (additionalOwedAmount > 0) {
             if (marginCallIssuedToShort) {
-                uint256 amountSillOwed = CollateralWallet(collateralWallet).transferBalance(address(this), true, owedAmount);
-                if (amountSillOwed >  0) {
-                    defaultContract(short, amountSillOwed);
+                uint256 amountStillOwed = CollateralWallet(collateralWallet).transferBalance(
+                    address(this), true, additionalOwedAmount);
+                if (amountStillOwed >  0) {
+                    defaultContract(short, amountStillOwed);
                 } else {
-                    owedAmount = 0;
+                    additionalOwedAmount = 0;
                 }
             } else if (marginCallIssuedToLong) {
-                uint256 amountStillOwed = CollateralWallet(collateralWallet).transferBalance(address(this), false, owedAmount);
+                uint256 amountStillOwed = CollateralWallet(collateralWallet).transferBalance(
+                    address(this), false, additionalOwedAmount);
                 if (amountStillOwed >  0) {
                     defaultContract(long, amountStillOwed);
                 } else {
-                    owedAmount = 0;
+                    additionalOwedAmount = 0;
                 }
             } else {
                 revert("mToM err");
@@ -206,15 +214,18 @@ contract ForwardContract is IForwardContract{
         uint256 oldContractValue = prevDayClosingPrice * sizeOfContract;
         int256 contractValueChange = int256(newContractValue) - int256(oldContractValue);
         uint256 newMarginRequirement = newContractValue * (maintenanceMarginRate / 10000);
+        uint256 shortAmountOwed = 0;
+        uint256 longAmountOwed = 0;
         //In this case the amount to be transfered is in cents, not dollars due to 1:100 scaling
-        owedAmount = CollateralWallet(collateralWallet).collateralMToM(address(this), 
+        additionalOwedAmount = CollateralWallet(collateralWallet).collateralMToM(address(this), 
             contractValueChange);
         if (CollateralWallet(collateralWallet).forwardToShortBalance(address(this))
             < newMarginRequirement) 
         {
             if (marginCallIssuedToShort) {
-                defaultContract(short, owedAmount);
+                defaultContract(short, additionalOwedAmount);
             } else {
+                shortAmountOwed = (newMarginRequirement - CollateralWallet(collateralWallet).forwardToShortBalance(address(this))) + additionalOwedAmount;
                 marginCallIssuedToShort = true;
             }
         } else {
@@ -225,15 +236,18 @@ contract ForwardContract is IForwardContract{
             < newMarginRequirement) 
         {
             if (marginCallIssuedToLong) {
-                defaultContract(long, owedAmount);
+                if (!marginCallIssuedToShort) {
+                    defaultContract(long, additionalOwedAmount);
+                }
             } else {
+                longAmountOwed = (newMarginRequirement - CollateralWallet(collateralWallet).forwardToLongBalance(address(this))) + additionalOwedAmount;
                 marginCallIssuedToLong = true;
             }
         } else {
             marginCallIssuedToLong = false;
         }
         prevDayClosingPrice = currentForwardPrice;
-        emit MarkedToMarket(contractValueChange);
+        emit MarkedToMarket(contractValueChange, shortAmountOwed, longAmountOwed);
     }
 
     /// @notice Settle and close contract at expiry.
@@ -244,6 +258,10 @@ contract ForwardContract is IForwardContract{
         uint256 initialContractValue = initialForwardPrice * sizeOfContract;
         uint256 finalContractValue = prevDayClosingPrice * sizeOfContract;
         int profitAndLoss = int256(finalContractValue) - int256(initialContractValue);
+        //withdraw link from oracles
+        LinkPoolUintOracle(underlyingOracleAddress).withdrawLink();
+        LinkPoolValuationOracle(valuationOracleAddress).withdrawLink();
+        USDRFROracle(valuationOracleAddress).withdrawLink();
         contractState = ContractState.Settled;
         emit SettledAtExpiration(profitAndLoss);
     }
@@ -267,6 +285,7 @@ contract ForwardContract is IForwardContract{
             }
         }
         contractState = ContractState.Defaulted;
+
         emit Defaulted(_defaultingParty, amountStillOwed);
     }
 

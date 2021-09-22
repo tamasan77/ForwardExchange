@@ -55,6 +55,32 @@ contract CollateralWallet is Pausable, Ownable{
         forwardToLongBalance[forwardContract] = collateralAmount;
     }
 
+    // Personal wallet should have approved collateral before calling add collateral
+    /// @notice Transfers collateral from personal wallet to collateral wallet.
+    /// @param forwardContract Address of the forward contract.
+    /// @param fromShort Bool whether collateral is from short or long party of forward contract.
+    /// @param amount Amount of collateral to be transfered from personal wallet.
+    function addCollateral(address forwardContract, bool fromShort, uint256 amount) external {
+        address collateralTokenAddress = forwardToCollateral[forwardContract];
+        if(fromShort) {//short adds collateral
+            address shortPersonalWallet = forwardToShortWallet[forwardContract];
+            require(IERC20(collateralTokenAddress).allowance(
+                shortPersonalWallet, address(this)) > amount, "allowance err");
+            IERC20(collateralTokenAddress).transferFrom(
+                shortPersonalWallet, address(this), amount);
+            uint256 oldShortBalance = forwardToShortBalance[forwardContract];
+            forwardToShortBalance[forwardContract] = oldShortBalance + amount;
+        } else {//long adds collateral
+            address longPersonalWallet = forwardToLongWallet[forwardContract];
+            require(IERC20(collateralTokenAddress).allowance(
+                longPersonalWallet, address(this)) > amount, "allowance err");
+            IERC20(collateralTokenAddress).transferFrom(
+                longPersonalWallet, address(this), amount);
+            uint256 oldLongBalance = forwardToLongBalance[forwardContract];
+            forwardToLongBalance[forwardContract] = oldLongBalance + amount;
+        }
+    }
+
     /// @notice Transfers balance between two parties.
     /// @param forwardContract Address of forward contract.
     /// @param shortToLong Bool indicating the direction of transfer.

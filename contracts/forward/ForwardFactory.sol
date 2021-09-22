@@ -51,6 +51,9 @@ contract ForwardFatory {
                 abi.encodePacked(ForwardContract(forwardContractAddress_).getContractState()))
                  == keccak256(abi.encodePacked("Created")), "contract not created");
             forwardContracts.push(forwardContractAddress_);
+            //transfer ownership to be able to withdraw link into contract
+            LinkPoolValuationOracle(valuationOracleAddres).transferOwnership(forwardContractAddress_);
+            USDRFROracle(usdRiskFreeRateOracleAddress).transferOwnership(forwardContractAddress_);
             emit ForwardCreated(name, symbol);
     }
 }

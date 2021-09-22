@@ -15,15 +15,11 @@ contract ChainlinkOracle is ChainlinkClient, Ownable,  IChainlinkOracle{
     bool public isSignedResult;
     uint256 public unsignedResult;
     int256 public signedResult;
-
     address public oracleAddress;
     bytes32 public jobId;
-
     string internal apiPath;
     string private apiBaseURL;
-
     int256 public decimals;
-
     uint256 public fee;
 
     constructor(
