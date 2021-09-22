@@ -69,18 +69,34 @@ contract ForwardContract is IForwardContract{
         underlyingDecimals = _underlyingDecimals;
         valuationOracleAddress = _valuationOracleAddress;
         usdRiskFreeRateOracleAddress = _usdRiskFreeRateOracleAddress;
-        underlyingOracleAddress = payable(address(new LinkPoolUintOracle(underlyingDecimals, underlyingApiURL, underlyingApiPath)));
+        underlyingOracleAddress = payable(address(new LinkPoolUintOracle(
+            underlyingDecimals, underlyingApiURL, underlyingApiPath)));
+        //Update API path of risk free rate according for maturity of contract.      
+        USDRFROracle(usdRiskFreeRateOracleAddress).updateAPIPath(
+            int(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate)));
+        //Fund oracles with link
+        LinkTokenInterface linkTokenAddress = LinkTokenInterface(
+            LinkPoolValuationOracle(valuationOracleAddress)._linkAddress());
+        linkTokenAddress.transfer(
+            valuationOracleAddress, 
+            ((DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) / 86400) + 5) * 
+                LinkPoolValuationOracle(valuationOracleAddress).fee());
+        linkTokenAddress.transfer(
+            underlyingOracleAddress, 
+            ((DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) / 86400) + 5) * 
+                LinkPoolUintOracle(valuationOracleAddress).fee());
+        linkTokenAddress.transfer(
+            usdRiskFreeRateOracleAddress, 
+            ((DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) / 86400) + 5) * 
+                USDRFROracle(valuationOracleAddress).fee());
         contractState = ContractState.Created;
     }
 
     // a few minutes before calling this function one should call the following functions:
-    // requestRiskFreeRate
-    // requestUnderlyingPrice
-    // requestForwardPrice
-    function setInitialForwardPrice() external {
-        initialForwardPrice = LinkPoolValuationOracle(valuationOracleAddress).unsignedResult();
-    }
-
+    // requestRiskFreeRate()
+    // requestUnderlyingPrice()
+    // requestForwardPrice()
+    //because of this a few minutes need to elapse between the creation of forward contracts and initiation
     /// @notice Initiate forward contract and send link to oracles.
     /// @param _long Long party
     /// @param _short Short party
@@ -108,6 +124,8 @@ contract ForwardContract is IForwardContract{
         require(_longPersonalWallet != address(0), "0 address");
         require(_shortPersonalWallet != address(0), "0 address");
         require(_maintenanceMarginRate != 0, "zero maintenance");
+        initialForwardPrice = LinkPoolValuationOracle(valuationOracleAddress).unsignedResult();
+        prevDayClosingPrice = initialForwardPrice;
         long = _long;
         short = _short;
         collateralWallet = _collateralWallet;
@@ -116,27 +134,9 @@ contract ForwardContract is IForwardContract{
         exposureMarginRate = _exposureMarginRate;
         maintenanceMarginRate = _maintenanceMarginRate;
         collateralTokenAddress = _collateralTokenAddress;
-
-
-        //Fund oracles with link
-        LinkTokenInterface linkTokenAddress = LinkTokenInterface(
-            LinkPoolValuationOracle(valuationOracleAddress)._linkAddress());
-        linkTokenAddress.transfer(
-            valuationOracleAddress, 
-            ((DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) / 86400) + 5) * 
-                LinkPoolValuationOracle(valuationOracleAddress).fee());
-        linkTokenAddress.transfer(
-            underlyingOracleAddress, 
-            ((DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) / 86400) + 5) * 
-                LinkPoolUintOracle(valuationOracleAddress).fee());
-        linkTokenAddress.transfer(
-            usdRiskFreeRateOracleAddress, 
-                ((DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) / 86400) + 5) * 
-                    USDRFROracle(valuationOracleAddress).fee());
-        //Update API path of risk free rate according for maturity of contract.      
-        USDRFROracle(usdRiskFreeRateOracleAddress).updateAPIPath(
-            int(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate)));
-        prevDayClosingPrice = initialForwardPrice;
+        uint256 initialCollateralRequirement = initialForwardPrice * ((maintenanceMarginRate + exposureMarginRate) / 10000);
+        // at this point the personal wallets must have approved the collateral wallet to transfer given collateral
+        CollateralWallet(collateralWallet).setupInitialCollateral(address(this), shortPersonalWallet, longPersonalWallet, collateralTokenAddress, initialCollateralRequirement);
         contractState = ContractState.Initiated;
         //emit Initiated(long, short, initialForwardPrice, annualRiskFreeRate, expirationDate, sizeOfContract, exposureMarginRate + maintenanceMarginRate);
         initiated_ = true;
@@ -172,7 +172,7 @@ contract ForwardContract is IForwardContract{
     }
 
     /// @notice Mark to market function that is called periodically to transfer gains/losses
-    /// 
+    /// @dev Collateral req. is checked and if party is unable to satisfy collateral requirement by next m-to-m then default.
     function markToMarket() external {
         require(contractState == ContractState.Initiated, 
                 "Contract not initiated");
