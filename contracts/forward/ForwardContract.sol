@@ -45,6 +45,8 @@ contract ForwardContract is IForwardContract{
     address payable underlyingOracleAddress;
     address payable usdRiskFreeRateOracleAddress;
     uint8 internal rfrMaturityTranchIndex;
+    bool internal marginCallIssuedToShort;
+    bool internal marginCallIssuedToLong;
 
     event SettledAtExpiration(int256 profitAndLoss);
     event Defaulted(address defaultingParty);
@@ -71,7 +73,7 @@ contract ForwardContract is IForwardContract{
         usdRiskFreeRateOracleAddress = _usdRiskFreeRateOracleAddress;
         underlyingOracleAddress = payable(address(new LinkPoolUintOracle(
             underlyingDecimals, underlyingApiURL, underlyingApiPath)));
-        //Update API path of risk free rate according for maturity of contract.      
+        //Update API path of risk free rate according to maturity of contract.      
         USDRFROracle(usdRiskFreeRateOracleAddress).updateAPIPath(
             int(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate)));
         //Fund oracles with link
@@ -134,9 +136,15 @@ contract ForwardContract is IForwardContract{
         exposureMarginRate = _exposureMarginRate;
         maintenanceMarginRate = _maintenanceMarginRate;
         collateralTokenAddress = _collateralTokenAddress;
-        uint256 initialCollateralRequirement = initialForwardPrice * ((maintenanceMarginRate + exposureMarginRate) / 10000);
-        // at this point the personal wallets must have approved the collateral wallet to transfer given collateral
-        CollateralWallet(collateralWallet).setupInitialCollateral(address(this), shortPersonalWallet, longPersonalWallet, collateralTokenAddress, initialCollateralRequirement);
+        marginCallIssuedToLong = false;
+        marginCallIssuedToShort = false;
+        uint256 initialCollateralRequirement = initialForwardPrice * 
+            ((maintenanceMarginRate + exposureMarginRate) / 10000);
+        // At this point the personal wallets must have approved the collateral wallet
+        // to transfer given collateral.
+        CollateralWallet(collateralWallet).setupInitialCollateral(
+            address(this), shortPersonalWallet, longPersonalWallet, 
+            collateralTokenAddress, initialCollateralRequirement);
         contractState = ContractState.Initiated;
         //emit Initiated(long, short, initialForwardPrice, annualRiskFreeRate, expirationDate, sizeOfContract, exposureMarginRate + maintenanceMarginRate);
         initiated_ = true;
@@ -184,9 +192,40 @@ contract ForwardContract is IForwardContract{
         uint256 newContractValue = currentForwardPrice * sizeOfContract;
         uint256 oldContractValue = prevDayClosingPrice * sizeOfContract;
         int256 contractValueChange = int256(newContractValue) - int256(oldContractValue);
-        //uint256 newMarginRequirement = newContractValue * (maintenanceMarginRate / )
+        uint256 newMarginRequirement = newContractValue * (maintenanceMarginRate / 10000);
         //In this case the amount to be transfered is in cents, not dollars due to 1:100 scaling
-        CollateralWallet(collateralWallet).collateralMToM(address(this), contractValueChange);
+        uint256 owedAmount = CollateralWallet(collateralWallet).collateralMToM(address(this), 
+            contractValueChange);
+        if (contractValueChange > 0) {
+            if (owedAmount > 0) {
+
+            }
+        }
+        if (CollateralWallet(collateralWallet).forwardToShortBalance(
+            address(this)) < newMarginRequirement) 
+        {
+            if (marginCallIssuedToShort) {
+                defaultContract(short);
+            } else {
+                marginCallIssuedToShort = true;
+            }
+        } else {
+            marginCallIssuedToShort = false;
+        }
+
+        if (CollateralWallet(collateralWallet).forwardToLongBalance(
+            address(this)) < newMarginRequirement) 
+        {
+            if (marginCallIssuedToLong) {
+                defaultContract(long);
+            } else {
+                marginCallIssuedToLong = true;
+            }
+        } else {
+            marginCallIssuedToLong = false;
+        }
+
+
 
         prevDayClosingPrice = currentForwardPrice;
         

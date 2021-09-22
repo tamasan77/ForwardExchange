@@ -54,9 +54,13 @@ contract CollateralWallet is Pausable, Ownable{
     /// @notice Adjusts balances of both parties according to m-to-m.
     /// @param forwardContract Address of the forward contract
     /// @param contractValueChange Change of value of forward contract during m-t--m
-    function collateralMToM(address forwardContract, int256 contractValueChange) external {
+    /// @return owedAmount_ Amount owed by losing party after mToM
+    function collateralMToM(address forwardContract, int256 contractValueChange) 
+        external 
+        returns (uint256 owedAmount_){
         uint256 oldShortBalance = forwardToShortBalance[forwardContract];
         uint256 oldLongBalance = forwardToLongBalance[forwardContract];
+        owedAmount_ = 0;
         if (contractValueChange > 0) {
             if (oldShortBalance >= uint256(contractValueChange)) {
                 forwardToShortBalance[forwardContract] = oldShortBalance - 
@@ -66,6 +70,7 @@ contract CollateralWallet is Pausable, Ownable{
             } else {
                 forwardToShortBalance[forwardContract] = 0;
                 forwardToLongBalance[forwardContract] = oldLongBalance + oldShortBalance;
+                owedAmount_ = uint256(contractValueChange) - oldShortBalance;
             }
         }
         if (contractValueChange < 0) {
@@ -77,24 +82,10 @@ contract CollateralWallet is Pausable, Ownable{
             } else {
                 forwardToLongBalance[forwardContract] = 0;
                 forwardToShortBalance[forwardContract] = oldShortBalance + oldLongBalance;
+                owedAmount_ = uint256(-contractValueChange) - oldLongBalance;
             }
         }
     }
-
-    /*
-    /// @notice Gets balance of given collateral token corresponding to given forward contract.
-    /// @param forwardContractAddress Address of forward contract for collateral.
-    /// @param collateralTokenAddress Address of collateral token.
-    /// @return Balance.
-    function getMappedBalance(address forwardContractAddress, address collateralTokenAddress) 
-        external 
-        view 
-        returns (uint256) 
-    {
-        require(forwardContractAddress != address(0), "0 address");
-        require(collateralTokenAddress != address(0), "0 address");
-        return forwardToCollateralMapping[forwardContractAddress][collateralTokenAddress];
-    }*/
 
     /// @notice Returns collateral to long and short parties.
     /// @param forwardContract Address of the forward contract.
