@@ -19,7 +19,7 @@ contract ForwardContract is IForwardContract{
     using SafeERC20 for IERC20;
     enum ContractState {Created, Initiated, Settled, Defaulted}
     string public name;
-    string public symbol;
+    bytes32 public symbol;
     ContractState internal contractState;
     uint256 public sizeOfContract;
     address private long;
@@ -36,9 +36,6 @@ contract ForwardContract is IForwardContract{
     uint256 public exposureMarginRate;
     uint256 public maintenanceMarginRate;
     uint256 internal prevDayClosingPrice;
-    string private underlyingApiURL;
-    string public underlyingApiPath;
-    int256 public underlyingDecimals;
     address payable valuationOracleAddress;
     address payable underlyingOracleAddress;
     address payable usdRiskFreeRateOracleAddress;
@@ -53,12 +50,12 @@ contract ForwardContract is IForwardContract{
 
     constructor(
             string memory _name, 
-            string memory _symbol, 
+            bytes32 _symbol, 
             uint256 _sizeOfContract,
             uint256 _expirationDate,
             string memory _underlyingApiURL,
             string memory _underlyingApiPath,
-            int256 _underlyingDecimals,
+            int256 _underlyingDecimalScale,
             address payable _valuationOracleAddress,
             address payable _usdRiskFreeRateOracleAddress
     ) {
@@ -66,13 +63,10 @@ contract ForwardContract is IForwardContract{
         symbol = _symbol;
         sizeOfContract = _sizeOfContract;
         expirationDate = _expirationDate;
-        underlyingApiPath = _underlyingApiPath;
-        underlyingApiURL = _underlyingApiURL;
-        underlyingDecimals = _underlyingDecimals;
         valuationOracleAddress = _valuationOracleAddress;
         usdRiskFreeRateOracleAddress = _usdRiskFreeRateOracleAddress;
         underlyingOracleAddress = payable(address(new LinkPoolUintOracle(
-            underlyingDecimals, underlyingApiURL, underlyingApiPath)));
+            _underlyingDecimalScale, _underlyingApiURL, _underlyingApiPath)));
         //Update API path of risk free rate according to maturity of contract.      
         USDRFROracle(usdRiskFreeRateOracleAddress).updateAPIPath(
             int(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate)));
@@ -296,7 +290,7 @@ contract ForwardContract is IForwardContract{
     function getLong() external view returns (address) {
             return long;
     }
-    
+
     function getShort() external view returns (address) {
             return short;
     }

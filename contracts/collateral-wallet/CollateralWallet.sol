@@ -40,7 +40,11 @@ contract CollateralWallet is Pausable, Ownable{
         address collateralToken,
         uint256 collateralAmount
     ) external 
-    {
+    {   
+        if (!containsTokens[collateralToken]) {
+            tokens.push(collateralToken);
+            containsTokens[collateralToken] = true;
+        }
         forwardContracts.push(forwardContract);
         forwardToCollateral[forwardContract] = collateralToken;
         forwardToShortWallet[forwardContract] = shortPersonalWallet;
@@ -102,8 +106,10 @@ contract CollateralWallet is Pausable, Ownable{
     function returnCollateral(address forwardContract) external {
         IERC20(forwardToCollateral[forwardContract]).transfer(forwardToLongWallet[forwardContract],
             forwardToLongBalance[forwardContract]);
+        forwardToLongBalance[forwardContract] = 0;
         IERC20(forwardToCollateral[forwardContract]).transfer(forwardToShortWallet[forwardContract],
             forwardToShortBalance[forwardContract]);
+        forwardToShortBalance[forwardContract] = 0;
     }
 
 }
