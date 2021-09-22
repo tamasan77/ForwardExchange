@@ -62,7 +62,7 @@ contract ForwardContract is IForwardContract{
             string memory _underlyingApiPath,
             int256 _underlyingDecimals,
             address payable _valuationOracleAddress,
-            address _usdRiskFreeRateOracleAddress
+            address payable _usdRiskFreeRateOracleAddress
     ) {
         name = _name;
         symbol = _symbol;
@@ -117,8 +117,7 @@ contract ForwardContract is IForwardContract{
         uint _exposureMarginRate,
         uint _maintenanceMarginRate, 
         address _collateralTokenAddress) 
-        external 
-        override 
+        external  
         returns (bool initiated_) 
     {
         require(_long != address(0), "0 address");
@@ -218,11 +217,11 @@ contract ForwardContract is IForwardContract{
         //In this case the amount to be transfered is in cents, not dollars due to 1:100 scaling
         owedAmount = CollateralWallet(collateralWallet).collateralMToM(address(this), 
             contractValueChange);
-        if (CollateralWallet(collateralWallet).forwardToShortBalance(
-            address(this)) < newMarginRequirement) 
+        if (CollateralWallet(collateralWallet).forwardToShortBalance(address(this))
+            < newMarginRequirement) 
         {
             if (marginCallIssuedToShort) {
-                defaultContract(short);
+                defaultContract(short, owedAmount);
             } else {
                 marginCallIssuedToShort = true;
             }
@@ -230,11 +229,11 @@ contract ForwardContract is IForwardContract{
             marginCallIssuedToShort = false;
         }
 
-        if (CollateralWallet(collateralWallet).forwardToLongBalance(
-            address(this)) < newMarginRequirement) 
+        if (CollateralWallet(collateralWallet).forwardToLongBalance(address(this))
+            < newMarginRequirement) 
         {
             if (marginCallIssuedToLong) {
-                defaultContract(long);
+                defaultContract(long, owedAmount);
             } else {
                 marginCallIssuedToLong = true;
             }
@@ -257,19 +256,26 @@ contract ForwardContract is IForwardContract{
         emit SettledAtExpiration(profitAndLoss);
     }
 
-    function defaultContract(address _defaultingParty) public {
+    /// @notice Defaults contract and transfers all collateral of defaulting party to toher party.
+    /// @param _defaultingParty Address of the defaulting party
+    /// @param amountStillOwed Amount of collateral still owed by lsoing party after defaulting.
+    function defaultContract(address _defaultingParty, uint256 amountStillOwed) public {
         require(((_defaultingParty == short) || (_defaultingParty == long)), "party err");
         require(contractState == ContractState.Initiated, "state err");
-        require(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) > 0, "exp date err");
-        
+        require(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) > 0);
         if (_defaultingParty == short) {
-            transferCollateralFrom(shortWallet, longWallet, CollateralWallet(shortWallet).getMappedBalance(address(this), collateralTokenAddress), collateralTokenAddress);
+            uint256 shortBalance = CollateralWallet(collateralWallet).forwardToShortBalance(address(this));
+            if (shortBalance > 0) {
+                CollateralWallet(collateralWallet).transferBalance(address(this), true, shortBalance);
+            }
         } else {
-            transferCollateralFrom(longWallet, shortWallet, CollateralWallet(longWallet).getMappedBalance(address(this), collateralTokenAddress), collateralTokenAddress);
+            uint256 longBalance = CollateralWallet(collateralWallet).forwardToLongBalance(address(this));
+            if (longBalance > 0) {
+                CollateralWallet(collateralWallet).transferBalance(address(this), false, longBalance);
+            }
         }
-        //change contract state and emit event
         contractState = ContractState.Defaulted;
-        emit Defaulted(_defaultingParty);
+        emit Defaulted(_defaultingParty, amountStillOwed);
     }
 
     function getLong() external view returns (address) {

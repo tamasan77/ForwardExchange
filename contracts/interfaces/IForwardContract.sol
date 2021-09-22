@@ -2,6 +2,7 @@
 pragma solidity ^0.8.6;
 
 interface IForwardContract {
+    /*
     function initiateForward(
         address _long, 
         address _short,
@@ -12,5 +13,5 @@ interface IForwardContract {
         uint _maintenanceMarginRate, 
         address _collateralTokenAddress) 
         external 
-        returns (bool initiated_);
+        returns (bool initiated_);*/
 }
