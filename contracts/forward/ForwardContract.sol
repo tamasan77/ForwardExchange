@@ -47,9 +47,11 @@ contract ForwardContract is IForwardContract{
     uint8 internal rfrMaturityTranchIndex;
     bool internal marginCallIssuedToShort;
     bool internal marginCallIssuedToLong;
+    uint256 internal owedAmount;
 
     event SettledAtExpiration(int256 profitAndLoss);
-    event Defaulted(address defaultingParty);
+    event Defaulted(address defaultingParty, uint256 amountSillOwed);
+    event MarkedToMarket(int256 contractValueChange);
 
     constructor(
             string memory _name, 
@@ -138,6 +140,7 @@ contract ForwardContract is IForwardContract{
         collateralTokenAddress = _collateralTokenAddress;
         marginCallIssuedToLong = false;
         marginCallIssuedToShort = false;
+        owedAmount = 0;
         uint256 initialCollateralRequirement = initialForwardPrice * 
             ((maintenanceMarginRate + exposureMarginRate) / 10000);
         // At this point the personal wallets must have approved the collateral wallet
@@ -187,6 +190,25 @@ contract ForwardContract is IForwardContract{
         require(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) > 0);
         require(DateTimeLibrary.diffSeconds(timeForwardPriceRequested, block.timestamp) > 300,
             "mtom early err");
+        if (owedAmount > 0) {
+            if (marginCallIssuedToShort) {
+                uint256 amountSillOwed = CollateralWallet(collateralWallet).transferBalance(address(this), true, owedAmount);
+                if (amountSillOwed >  0) {
+                    defaultContract(short, amountSillOwed);
+                } else {
+                    owedAmount = 0;
+                }
+            } else if (marginCallIssuedToLong) {
+                uint256 amountStillOwed = CollateralWallet(collateralWallet).transferBalance(address(this), false, owedAmount);
+                if (amountStillOwed >  0) {
+                    defaultContract(long, amountStillOwed);
+                } else {
+                    owedAmount = 0;
+                }
+            } else {
+                revert("mToM err");
+            }
+        }
         uint256 currentForwardPrice = 
             LinkPoolValuationOracle(valuationOracleAddress).unsignedResult();
         uint256 newContractValue = currentForwardPrice * sizeOfContract;
@@ -194,13 +216,8 @@ contract ForwardContract is IForwardContract{
         int256 contractValueChange = int256(newContractValue) - int256(oldContractValue);
         uint256 newMarginRequirement = newContractValue * (maintenanceMarginRate / 10000);
         //In this case the amount to be transfered is in cents, not dollars due to 1:100 scaling
-        uint256 owedAmount = CollateralWallet(collateralWallet).collateralMToM(address(this), 
+        owedAmount = CollateralWallet(collateralWallet).collateralMToM(address(this), 
             contractValueChange);
-        if (contractValueChange > 0) {
-            if (owedAmount > 0) {
-
-            }
-        }
         if (CollateralWallet(collateralWallet).forwardToShortBalance(
             address(this)) < newMarginRequirement) 
         {
@@ -224,12 +241,8 @@ contract ForwardContract is IForwardContract{
         } else {
             marginCallIssuedToLong = false;
         }
-
-
-
         prevDayClosingPrice = currentForwardPrice;
-        
-        //emit MarkedToMarket(block.timestamp, contractValueChange, long, short);
+        emit MarkedToMarket(contractValueChange);
     }
 
     /// @notice Settle and close contract at expiry.

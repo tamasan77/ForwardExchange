@@ -51,6 +51,36 @@ contract CollateralWallet is Pausable, Ownable{
         forwardToLongBalance[forwardContract] = collateralAmount;
     }
 
+    /// @notice Transfers balance between two parties.
+    /// @param forwardContract Address of forward contract.
+    /// @param shortToLong Bool indicating the direction of transfer.
+    /// @param amount Amount to be transfered.
+    /// @return amountOwed_ Amount of collateral owed if balance insufficient.
+    function transferBalance(address forwardContract, bool shortToLong, uint256 amount) public returns (uint256 amountOwed_){
+        uint256 oldShortBalance = forwardToShortBalance[forwardContract];
+        uint256 oldLongBalance = forwardToLongBalance[forwardContract];
+        amountOwed_ = 0;
+        if (shortToLong) {
+            if (oldShortBalance >= amount) {
+                forwardToShortBalance[forwardContract] = oldShortBalance - amount;
+                forwardToLongBalance[forwardContract] = oldLongBalance + amount;
+            } else {
+                forwardToShortBalance[forwardContract] = 0;
+                forwardToLongBalance[forwardContract] = oldLongBalance + oldShortBalance;
+                amountOwed_ = amount - oldShortBalance;
+            }
+        } else {
+            if (oldLongBalance >= amount) {
+                forwardToLongBalance[forwardContract] = oldLongBalance - amount;
+                forwardToShortBalance[forwardContract] = oldShortBalance + amount;
+            } else {
+                forwardToLongBalance[forwardContract] = 0;
+                forwardToShortBalance[forwardContract] = oldShortBalance + oldLongBalance;
+                amountOwed_ = amount - oldLongBalance;
+            }
+        }
+    }
+
     /// @notice Adjusts balances of both parties according to m-to-m.
     /// @param forwardContract Address of the forward contract
     /// @param contractValueChange Change of value of forward contract during m-t--m
@@ -58,32 +88,12 @@ contract CollateralWallet is Pausable, Ownable{
     function collateralMToM(address forwardContract, int256 contractValueChange) 
         external 
         returns (uint256 owedAmount_){
-        uint256 oldShortBalance = forwardToShortBalance[forwardContract];
-        uint256 oldLongBalance = forwardToLongBalance[forwardContract];
         owedAmount_ = 0;
         if (contractValueChange > 0) {
-            if (oldShortBalance >= uint256(contractValueChange)) {
-                forwardToShortBalance[forwardContract] = oldShortBalance - 
-                    uint256(contractValueChange);
-                forwardToLongBalance[forwardContract] = oldLongBalance + 
-                    uint256(contractValueChange);
-            } else {
-                forwardToShortBalance[forwardContract] = 0;
-                forwardToLongBalance[forwardContract] = oldLongBalance + oldShortBalance;
-                owedAmount_ = uint256(contractValueChange) - oldShortBalance;
-            }
+            owedAmount_ = transferBalance(forwardContract, true, uint256(contractValueChange));
         }
         if (contractValueChange < 0) {
-            if (oldLongBalance >= uint256(-contractValueChange)) {
-                forwardToShortBalance[forwardContract] = oldShortBalance + 
-                    uint256(-contractValueChange);
-                forwardToLongBalance[forwardContract] = oldLongBalance - 
-                    uint256(-contractValueChange);
-            } else {
-                forwardToLongBalance[forwardContract] = 0;
-                forwardToShortBalance[forwardContract] = oldShortBalance + oldLongBalance;
-                owedAmount_ = uint256(-contractValueChange) - oldLongBalance;
-            }
+            owedAmount_ = transferBalance(forwardContract, false, uint256(-contractValueChange));
         }
     }
 
@@ -94,7 +104,6 @@ contract CollateralWallet is Pausable, Ownable{
             forwardToLongBalance[forwardContract]);
         IERC20(forwardToCollateral[forwardContract]).transfer(forwardToShortWallet[forwardContract],
             forwardToShortBalance[forwardContract]);
-
     }
 
 }
