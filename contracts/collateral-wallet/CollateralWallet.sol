@@ -51,11 +51,14 @@ contract CollateralWallet is Pausable, Ownable{
         forwardToLongBalance[forwardContract] = collateralAmount;
     }
 
+    /// @notice Adjusts balances of both parties according to m-to-m.
+    /// @param forwardContract Address of the forward contract
+    /// @param contractValueChange Change of value of forward contract during m-t--m
     function collateralMToM(address forwardContract, int256 contractValueChange) external {
         uint256 oldShortBalance = forwardToShortBalance[forwardContract];
         uint256 oldLongBalance = forwardToLongBalance[forwardContract];
         if (contractValueChange > 0) {
-            if (oldShortBalance >= contractValueChange) {
+            if (oldShortBalance >= uint256(contractValueChange)) {
                 forwardToShortBalance[forwardContract] = oldShortBalance - 
                     uint256(contractValueChange);
                 forwardToLongBalance[forwardContract] = oldLongBalance + 
@@ -96,7 +99,11 @@ contract CollateralWallet is Pausable, Ownable{
     /// @notice Returns collateral to long and short parties.
     /// @param forwardContract Address of the forward contract.
     function returnCollateral(address forwardContract) external {
-        IERC20(forwardToCollateral[forwardContract]).transfer(forwardToLongWallet[forwardContract], forwardToLongBalance[forwardContract]);
+        IERC20(forwardToCollateral[forwardContract]).transfer(forwardToLongWallet[forwardContract],
+            forwardToLongBalance[forwardContract]);
+        IERC20(forwardToCollateral[forwardContract]).transfer(forwardToShortWallet[forwardContract],
+            forwardToShortBalance[forwardContract]);
+
     }
 
 }

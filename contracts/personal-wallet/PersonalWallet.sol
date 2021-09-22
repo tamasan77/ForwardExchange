@@ -35,7 +35,7 @@ contract PersonalWallet is Pausable, Ownable {
     /// @param collateralWallet Address of the collateral wallet that needs approval.
     /// @param collateralToken Address of the token to be approved.
     /// @param amount Amount of tokens to be approved.
-    function approveCollateral(address collateralWallet, address collateralToken, uint256 amount) public {
+    function approveCollateral(address collateralWallet, address collateralToken, uint256 amount) private onlyOwner {
         require(containsTokens[collateralToken], "coll token err");
         require(IERC20(collateralToken).balanceOf(address(this)) >= amount, "balance err");
         IERC20(collateralToken).approve(collateralWallet, amount);

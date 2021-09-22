@@ -53,27 +53,37 @@ contract ForwardContract is IForwardContract{
             string memory _name, 
             string memory _symbol, 
             uint256 _sizeOfContract,
+            uint256 _expirationDate,
             string memory _underlyingApiURL,
             string memory _underlyingApiPath,
             int256 _underlyingDecimals,
-            address payable _valuationOracleAddress
+            address payable _valuationOracleAddress,
+            address _usdRiskFreeRateOracleAddress
     ) {
         name = _name;
         symbol = _symbol;
         sizeOfContract = _sizeOfContract;
+        expirationDate = _expirationDate;
         underlyingApiPath = _underlyingApiPath;
         underlyingApiURL = _underlyingApiURL;
         underlyingDecimals = _underlyingDecimals;
         valuationOracleAddress = _valuationOracleAddress;
+        usdRiskFreeRateOracleAddress = _usdRiskFreeRateOracleAddress;
         underlyingOracleAddress = payable(address(new LinkPoolUintOracle(underlyingDecimals, underlyingApiURL, underlyingApiPath)));
-        usdRiskFreeRateOracleAddress = payable(address(new USDRFROracle()));
         contractState = ContractState.Created;
+    }
+
+    // a few minutes before calling this function one should call the following functions:
+    // requestRiskFreeRate
+    // requestUnderlyingPrice
+    // requestForwardPrice
+    function setInitialForwardPrice() external {
+        initialForwardPrice = LinkPoolValuationOracle(valuationOracleAddress).unsignedResult();
     }
 
     /// @notice Initiate forward contract and send link to oracles.
     /// @param _long Long party
     /// @param _short Short party
-    /// @param _expirationDate Expiration date of the contract
     /// @param _collateralWallet Address of the collateral wallet
     /// @param _exposureMarginRate Exposure margin rate.
     /// @param _maintenanceMarginRate Maintenance margin rate.
@@ -81,8 +91,9 @@ contract ForwardContract is IForwardContract{
     function initiateForward(
         address _long, 
         address _short,
-        uint256 _expirationDate,
         address _collateralWallet,
+        address _longPersonalWallet,
+        address _shortPersonalWallet,
         uint _exposureMarginRate,
         uint _maintenanceMarginRate, 
         address _collateralTokenAddress) 
@@ -93,43 +104,39 @@ contract ForwardContract is IForwardContract{
         require(_long != address(0), "0 address");
         require(_short != address(0), "0 address");
         require(_long != _short, "same party");
-        require(_CollateralWallet != address(0), "0 address");
+        require(_collateralWallet != address(0), "0 address");
+        require(_longPersonalWallet != address(0), "0 address");
+        require(_shortPersonalWallet != address(0), "0 address");
         require(_maintenanceMarginRate != 0, "zero maintenance");
-        
         long = _long;
         short = _short;
-        expirationDate = _expirationDate;
         collateralWallet = _collateralWallet;
+        longPersonalWallet = _longPersonalWallet;
+        shortPersonalWallet = _shortPersonalWallet;
         exposureMarginRate = _exposureMarginRate;
         maintenanceMarginRate = _maintenanceMarginRate;
         collateralTokenAddress = _collateralTokenAddress;
+
 
         //Fund oracles with link
         LinkTokenInterface linkTokenAddress = LinkTokenInterface(
             LinkPoolValuationOracle(valuationOracleAddress)._linkAddress());
         linkTokenAddress.transfer(
             valuationOracleAddress, 
-            ((DateTimeLibrary.diffSeconds(block.timestamp, _expirationDate) / 86400) + 5) * 
+            ((DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) / 86400) + 5) * 
                 LinkPoolValuationOracle(valuationOracleAddress).fee());
         linkTokenAddress.transfer(
             underlyingOracleAddress, 
-            ((DateTimeLibrary.diffSeconds(block.timestamp, _expirationDate) / 86400) + 5) * 
-                LinkPoolValuationOracle(valuationOracleAddress).fee());
+            ((DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) / 86400) + 5) * 
+                LinkPoolUintOracle(valuationOracleAddress).fee());
         linkTokenAddress.transfer(
             usdRiskFreeRateOracleAddress, 
-                ((DateTimeLibrary.diffSeconds(block.timestamp, _expirationDate) / 86400) + 5) * 
-                    LinkPoolValuationOracle(valuationOracleAddress).fee());
-
+                ((DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) / 86400) + 5) * 
+                    USDRFROracle(valuationOracleAddress).fee());
         //Update API path of risk free rate according for maturity of contract.      
         USDRFROracle(usdRiskFreeRateOracleAddress).updateAPIPath(
-            int(DateTimeLibrary.diffSeconds(block.timestamp, _expirationDate)));
-
-        //call valuation API to get initialForwardPrice!!!!!!!!!!!!!11
-        initialForwardPrice = 0;//this doesn't need to be a parameter, just set it here directly
+            int(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate)));
         prevDayClosingPrice = initialForwardPrice;
-        //annualRiskFreeRate = _annualRiskFreeRate;
-        //add token to each wallet if not added yet
-        //set new balance to zero
         contractState = ContractState.Initiated;
         //emit Initiated(long, short, initialForwardPrice, annualRiskFreeRate, expirationDate, sizeOfContract, exposureMarginRate + maintenanceMarginRate);
         initiated_ = true;
@@ -152,6 +159,9 @@ contract ForwardContract is IForwardContract{
     /// @notice Make a request for price of the forward. Takes 2-3 min. to fulffill.
     /// @dev result should be available in 2-3 min.
     function requestForwardPrice() internal {
+        /// we needed to request underlying price and annual risk free rate beforehand
+        underlyingPrice = LinkPoolUintOracle(underlyingOracleAddress).unsignedResult();
+        annualRiskFreeRate = USDRFROracle(usdRiskFreeRateOracleAddress).signedResult();
         LinkPoolValuationOracle(valuationOracleAddress).requestIndexPrice(
             StringManipLibrary.concatenateStringsForURL(
                 StringManipLibrary.uint2str(underlyingPrice), 
@@ -182,48 +192,6 @@ contract ForwardContract is IForwardContract{
         
         //emit MarkedToMarket(block.timestamp, contractValueChange, long, short);
     }
-    /*
-    /// @notice Transfers collateral from one collateral wallet to the other collateral wallet.
-    /// @param senderAddress Address of the wallet from which collateral is transfered.
-    /// @param recipientWalletAddress Address of the wallet to which collateral is tranfered.
-    /// @param amount Amount of collateral to be transfered.
-    /// @param _collateralTokenAddress Address of the collateral token to transfer.
-    function transferCollateralFrom(address senderAddress, 
-            address recipientWalletAddress, uint256 amount, 
-            address _collateralTokenAddress) public returns (bool transfered_)
-    {
-            CollateralWallet senderWallet = CollateralWallet(senderWalletAddress);
-            CollateralWallet recipientWallet = CollateralWallet(recipientWalletAddress);
-            uint256 originalSenderMappedBalance = senderWallet.getMappedBalance(
-                                                                address(this), 
-                                                                _collateralTokenAddress);
-            require(originalSenderMappedBalance >= amount, 
-                    "balance insufficient");
-
-            //approval might need fixing
-            senderWallet.approveSpender(_collateralTokenAddress, 
-                                        address(this), amount);
-            IERC20(_collateralTokenAddress).transferFrom(senderWalletAddress, 
-                                                         recipientWalletAddress, 
-                                                         amount);
-
-            //deduct from sender balance mapping
-            unchecked {
-                uint256 newSenderMappedBalance = originalSenderMappedBalance - amount;
-                senderWallet.setNewBalance(address(this), _collateralTokenAddress, 
-                                           newSenderMappedBalance);
-            }
-
-            //add to recipient balance mapping
-            uint256 newRecipientMappedBalance = recipientWallet.getMappedBalance(
-                                                                    address(this), 
-                                                                    _collateralTokenAddress) 
-                                                                    + amount;
-            recipientWallet.setNewBalance(address(this), _collateralTokenAddress, 
-                                          newRecipientMappedBalance);
- 
-            transfered_ = true;
-    }*/
 
     /// @notice Settle and close contract at expiry.
     /// 
