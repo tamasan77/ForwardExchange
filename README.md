@@ -9,4 +9,5 @@ For the forward contract users can select any underlying asset by agreeing on an
 
 # Component Architecture
 ![Component Diagram](https://github.com/tamasan77/ForwardExchange/blob/main/docs/Component%20Diagram.jpg?raw=true)
+*image_caption*
 
