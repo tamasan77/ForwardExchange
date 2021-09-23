@@ -300,6 +300,8 @@ contract ForwardContract is IForwardContract, ChainlinkClient, Ownable{
 
     /// @notice Withdraw link from forward contract callable by ForwardFactory contract
     function withdrawLinkFromContract() external onlyOwner{
+        require((contractState == ContractState.Settled) || 
+                (contractState == ContractState.Defaulted), "state err");
         LinkTokenInterface link = LinkTokenInterface(chainlinkTokenAddress());
         uint256 linkBalance = link.balanceOf(address(this));
         require(link.transfer(msg.sender, linkBalance), "Withdraw err.");
