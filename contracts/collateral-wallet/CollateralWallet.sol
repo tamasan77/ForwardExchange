@@ -38,7 +38,7 @@ contract CollateralWallet is Pausable, Ownable, ICollateralWallet{
         address longPersonalWallet,
         address collateralToken,
         uint256 collateralAmount
-    ) external 
+    ) external override
     {   
         if (!containsTokens[collateralToken]) {
             tokens.push(collateralToken);
@@ -59,7 +59,10 @@ contract CollateralWallet is Pausable, Ownable, ICollateralWallet{
     /// @param forwardContract Address of the forward contract.
     /// @param fromShort Bool whether collateral is from short or long party of forward contract.
     /// @param amount Amount of collateral to be transfered from personal wallet.
-    function addCollateral(address forwardContract, bool fromShort, uint256 amount) external {
+    function addCollateral(address forwardContract, bool fromShort, uint256 amount) 
+        external 
+        override
+    {
         address collateralTokenAddress = forwardToCollateral[forwardContract];
         if(fromShort) {//short adds collateral
             address shortPersonalWallet = forwardToShortWallet[forwardContract];
@@ -86,7 +89,8 @@ contract CollateralWallet is Pausable, Ownable, ICollateralWallet{
     /// @param amount Amount to be transfered.
     /// @return amountOwed_ Amount of collateral owed if balance insufficient.
     function transferBalance(address forwardContract, bool shortToLong, uint256 amount) 
-        public 
+        public
+        override 
         returns (uint256 amountOwed_)
     {
         uint256 oldShortBalance = forwardToShortBalance[forwardContract];
@@ -118,7 +122,8 @@ contract CollateralWallet is Pausable, Ownable, ICollateralWallet{
     /// @param contractValueChange Change of value of forward contract during m-t--m
     /// @return owedAmount_ Amount owed by losing party after mToM
     function collateralMToM(address forwardContract, int256 contractValueChange) 
-        external 
+        external
+        override 
         returns (uint256 owedAmount_){
         owedAmount_ = 0;
         if (contractValueChange > 0) {
@@ -131,7 +136,7 @@ contract CollateralWallet is Pausable, Ownable, ICollateralWallet{
 
     /// @notice Returns collateral to long and short parties.
     /// @param forwardContract Address of the forward contract.
-    function returnCollateral(address forwardContract) external {
+    function returnCollateral(address forwardContract) external override {
         IERC20(forwardToCollateral[forwardContract]).transfer(forwardToLongWallet[forwardContract],
             forwardToLongBalance[forwardContract]);
         forwardToLongBalance[forwardContract] = 0;

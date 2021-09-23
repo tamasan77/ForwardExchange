@@ -2,14 +2,13 @@
 pragma solidity ^0.8.6;
 
 import "./PersonalWallet.sol";
+import "./interfaces/IPersonalWalletFactory.sol";
 
 /// @title Personal wallet factory
 /// @author Tamas An
 /// @notice Factory that creates and holds addresses of personal wallets.
-contract PersonalWalletFactory {
+contract PersonalWalletFactory is IPersonalWalletFactory{
     address[] public personalWallets;
-
-    event WalletCreated(address walletOwner);
 
     /// @notice Creates Personal Wallet
     /// @param walletOwner Address of the owner of the wallet
