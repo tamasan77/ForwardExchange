@@ -5,11 +5,12 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
+import "./interfaces/ICollateralWallet.sol";
 
 /// @title Collateral Wallet
 /// @author Tamas An
 /// @notice Wallet for holding ERC20 tokens as collateral.
-contract CollateralWallet is Pausable, Ownable{
+contract CollateralWallet is Pausable, Ownable, ICollateralWallet{
     using SafeERC20 for IERC20;
     address[] public tokens;
     mapping(address => bool) public containsTokens;
@@ -21,8 +22,6 @@ contract CollateralWallet is Pausable, Ownable{
     mapping(address => address) internal forwardToShortWallet;
     mapping(address => address) internal forwardToLongWallet;
     
-    event CollateralReturned(address collateralOwner, uint256 remainingBalance);
-
     constructor (string memory _walletName) {
         walletName = _walletName;
     }
@@ -86,7 +85,10 @@ contract CollateralWallet is Pausable, Ownable{
     /// @param shortToLong Bool indicating the direction of transfer.
     /// @param amount Amount to be transfered.
     /// @return amountOwed_ Amount of collateral owed if balance insufficient.
-    function transferBalance(address forwardContract, bool shortToLong, uint256 amount) public returns (uint256 amountOwed_){
+    function transferBalance(address forwardContract, bool shortToLong, uint256 amount) 
+        public 
+        returns (uint256 amountOwed_)
+    {
         uint256 oldShortBalance = forwardToShortBalance[forwardContract];
         uint256 oldLongBalance = forwardToLongBalance[forwardContract];
         amountOwed_ = 0;

@@ -2,6 +2,7 @@
 pragma solidity ^0.8.6;
 
 import "./CollateralWallet.sol";
+import "./interfaces/ICollateralWalletFactory.sol";
 
 /// @title Collateral Wallet Factory
 /// @author Tamas An
@@ -9,10 +10,9 @@ import "./CollateralWallet.sol";
 contract CollateralWalletFactory {
     address[] public collateralWallets;
 
-    event CreatedWallet(string name);
-
     /// @notice Creates new collateral wallet with given name and owner.
     /// @param _walletName name of wallet
+    /// @return collateralWalletAddress_ Address of collateral wallet
     function createCollateralWallet(string memory _walletName) 
         external
         returns (address collateralWalletAddress_) 
