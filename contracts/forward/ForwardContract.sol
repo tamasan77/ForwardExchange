@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
-import "../interfaces/IForwardContract.sol";
+import "./interfaces/IForwardContract.sol";
 import "../collateral-wallet/CollateralWallet.sol";
 import "../oracles/link-pool-oracles/LinkPoolValuationOracle.sol";
 import "../oracles/link-pool-oracles/LinkPoolUintOracle.sol";
@@ -46,11 +46,6 @@ contract ForwardContract is IForwardContract, ChainlinkClient, Ownable{
     bool internal marginCallIssuedToLong;
     uint256 internal additionalOwedAmount;
 
-    event SettledAtExpiration(int256 profitAndLoss);
-    event Defaulted(address defaultingParty, uint256 amountSillOwed);
-    event MarkedToMarket(int256 contractValueChange, uint256 shortOwedAmount, uint256 longOwedAmount);
-    event LinkWithdrawn(uint256 amountWithdrawn);
-
     constructor(
             string memory _name, 
             bytes32 _symbol, 
@@ -61,7 +56,8 @@ contract ForwardContract is IForwardContract, ChainlinkClient, Ownable{
             int256 _underlyingDecimalScale,
             address payable _valuationOracleAddress,
             address payable _usdRiskFreeRateOracleAddress
-    ) {
+    ) 
+    {
         name = _name;
         symbol = _symbol;
         sizeOfContract = _sizeOfContract;
@@ -112,7 +108,8 @@ contract ForwardContract is IForwardContract, ChainlinkClient, Ownable{
         uint _exposureMarginRate,
         uint _maintenanceMarginRate, 
         address _collateralTokenAddress) 
-        external  
+        external 
+        override 
         returns (bool initiated_) 
     {
         require(_long != address(0), "0 address");
@@ -184,7 +181,7 @@ contract ForwardContract is IForwardContract, ChainlinkClient, Ownable{
 
     /// @notice Mark to market function that is called periodically to transfer gains/losses
     /// @dev Collateral req. is checked and if party is unable to satisfy collateral requirement by next m-to-m then default.
-    function markToMarket() external {
+    function markToMarket() external override {
         require(contractState == ContractState.Initiated, 
                 "Contract not initiated");
         require(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) > 0);
@@ -258,7 +255,7 @@ contract ForwardContract is IForwardContract, ChainlinkClient, Ownable{
     }
 
     /// @notice Settle and close contract at expiry.
-    function settleAtExpiration() external {
+    function settleAtExpiration() external override {
         require(contractState == ContractState.Initiated, "wrong state");
         require(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) > 0);
         uint256 initialContractValue = initialForwardPrice * sizeOfContract;
@@ -275,7 +272,7 @@ contract ForwardContract is IForwardContract, ChainlinkClient, Ownable{
     /// @notice Defaults contract and transfers all collateral of defaulting party to toher party.
     /// @param _defaultingParty Address of the defaulting party
     /// @param amountStillOwed Amount of collateral still owed by lsoing party after defaulting.
-    function defaultContract(address _defaultingParty, uint256 amountStillOwed) public {
+    function defaultContract(address _defaultingParty, uint256 amountStillOwed) public override {
         require(((_defaultingParty == short) || (_defaultingParty == long)), "party err");
         require(contractState == ContractState.Initiated, "state err");
         require(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) > 0);
@@ -299,7 +296,7 @@ contract ForwardContract is IForwardContract, ChainlinkClient, Ownable{
     }
 
     /// @notice Withdraw link from forward contract callable by ForwardFactory contract
-    function withdrawLinkFromContract() external onlyOwner{
+    function withdrawLinkFromContract() external override onlyOwner{
         require((contractState == ContractState.Settled) || 
                 (contractState == ContractState.Defaulted), "state err");
         LinkTokenInterface link = LinkTokenInterface(chainlinkTokenAddress());
@@ -311,7 +308,7 @@ contract ForwardContract is IForwardContract, ChainlinkClient, Ownable{
     /* Getter functions */
     /// @notice Returns current contract state.
     /// @return Current contract state.
-    function getContractState() external view returns(string memory) {
+    function getContractState() external override view returns(string memory) {
             if (contractState == ContractState.Created) {
                 return "Created";
             } else if (contractState == ContractState.Initiated) {
@@ -325,18 +322,26 @@ contract ForwardContract is IForwardContract, ChainlinkClient, Ownable{
             }
     }
 
-    function getLong() external view returns (address) {
+    /// @notice get long party
+    /// @return address of long party
+    function getLong() external override view returns (address) {
             return long;
     }
 
+    /// @notice get short party
+    /// @return address of long party
     function getShort() external view returns (address) {
             return short;
     }
 
+    /// @notice get personal wallet of long party
+    /// @return address of long party personal wallet
     function getLongPersonalWallet() external view returns (address) {
         return longPersonalWallet;
     }
 
+    /// @notice get personal wallet of short party
+    /// @return address of short party personal wallet
     function getShortPersonalWallet() external view returns (address) {
         return shortPersonalWallet;
     }

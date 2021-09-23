@@ -3,7 +3,7 @@ pragma solidity ^0.8.6;
 
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "../interfaces/IChainlinkOracle.sol";
+import "./interfaces/IChainlinkOracle.sol";
 
 /// @title Chainlink Oracle
 /// @author Tamas An

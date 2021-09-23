@@ -3,6 +3,9 @@ pragma solidity ^0.8.6;
 
 /// @title IChainlinkOracle interface
 interface IChainlinkOracle {
+    event LinkWithdrawn(address withdrawer, uint256 amount);
+    event Received(address sender, uint256 amount);
+
     /// @notice Create Chainlink request with uint256 job.
     /// @dev For underlying price oracle apiURLParameters is empty string.
     /// @param apiURLParameters Parameters added to API URL.
