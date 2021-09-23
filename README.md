@@ -27,5 +27,5 @@ call to the valuation API for the price of the forward contract.
 ### Forward
 The Forward Factory is used to deploy customized Forward Contracts.
 The Forward Contract smart contract contain all necessary functionalities that 
-are needed during the life-cycle of the forward, including *Initiation*,
+are needed during the life-cycle of the forward, including *Initiation*, *Mark to Market*, *Default* and *Settlement*.
 
