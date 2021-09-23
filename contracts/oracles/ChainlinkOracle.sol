@@ -11,7 +11,6 @@ import "../interfaces/IChainlinkOracle.sol";
 /// @dev Based on official chainlink documentation
 contract ChainlinkOracle is ChainlinkClient, Ownable,  IChainlinkOracle{
     using Chainlink for Chainlink.Request;
-
     bool public isSignedResult;
     uint256 public unsignedResult;
     int256 public signedResult;

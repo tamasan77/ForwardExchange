@@ -6,6 +6,7 @@ import "../utils/StringManipLibrary.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 import "../interfaces/IForwardContract.sol";
 import "../collateral-wallet/CollateralWallet.sol";
 import "../oracles/link-pool-oracles/LinkPoolValuationOracle.sol";
@@ -15,8 +16,9 @@ import "../oracles/link-pool-oracles/USDRFROracle.sol";
 /// @title Forward Contract
 /// @author Tamas An
 /// @notice Forward Contract with all relevant functionalities.
-contract ForwardContract is IForwardContract{
+contract ForwardContract is IForwardContract, ChainlinkClient, Ownable{
     using SafeERC20 for IERC20;
+    using Chainlink for Chainlink.Request;
     enum ContractState {Created, Initiated, Settled, Defaulted}
     string public name;
     bytes32 public symbol;
@@ -47,6 +49,7 @@ contract ForwardContract is IForwardContract{
     event SettledAtExpiration(int256 profitAndLoss);
     event Defaulted(address defaultingParty, uint256 amountSillOwed);
     event MarkedToMarket(int256 contractValueChange, uint256 shortOwedAmount, uint256 longOwedAmount);
+    event LinkWithdrawn(uint256 amountWithdrawn);
 
     constructor(
             string memory _name, 
@@ -293,6 +296,14 @@ contract ForwardContract is IForwardContract{
         USDRFROracle(valuationOracleAddress).withdrawLink();
         contractState = ContractState.Defaulted;
         emit Defaulted(_defaultingParty, amountStillOwed);
+    }
+
+    /// @notice Withdraw link from forward contract callable by ForwardFactory contract
+    function withdrawLinkFromContract() external onlyOwner{
+        LinkTokenInterface link = LinkTokenInterface(chainlinkTokenAddress());
+        uint256 linkBalance = link.balanceOf(address(this));
+        require(link.transfer(msg.sender, linkBalance), "Withdraw err.");
+        emit LinkWithdrawn(linkBalance);
     }
 
     /* Getter functions */
