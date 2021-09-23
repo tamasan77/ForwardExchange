@@ -5,13 +5,12 @@ import "../utils/DateTimeLibrary.sol";
 import "./ForwardContract.sol";
 import "../oracles/link-pool-oracles/LinkPoolValuationOracle.sol";
 import "../oracles/link-pool-oracles/USDRFROracle.sol";
+import "./interfaces/IForwardFactory.sol";
 
-contract ForwardFatory {
+contract ForwardFatory is IForwardFactory{
     address[] public forwardContracts;
     address payable valuationOracleAddres = payable(address(new LinkPoolValuationOracle()));
     address payable usdRiskFreeRateOracleAddress = payable(address(new USDRFROracle()));
-
-    event ForwardCreated(string name, bytes32 symbol);
 
     /// @notice Create forward contract.
     /// @param name Name of forward.
@@ -31,7 +30,7 @@ contract ForwardFatory {
         string memory underlyingApiPath,
         int256 underlyingDecimalScale
         ) 
-        external returns (address forwardContractAddress_) {
+        external override returns (address forwardContractAddress_) {
             require(bytes(underlyingApiURL).length != 0, "url empty");
             require(bytes(underlyingApiPath).length != 0, "url empty");
             require(underlyingDecimalScale != 0, "decimal zero");
