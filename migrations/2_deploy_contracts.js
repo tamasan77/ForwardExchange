@@ -1,5 +1,5 @@
+var PersonalWalletFactory = artifacts.require("./personal-wallet/PersonalWalletFactory.sol");
 
-
-module.exports = function(deployer) {
-
+module.exports = async function(deployer) {
+    await deployer.deploy(PersonalWalletFactory);
 };

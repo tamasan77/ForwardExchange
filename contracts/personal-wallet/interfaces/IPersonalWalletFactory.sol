@@ -11,5 +11,5 @@ interface IPersonalWalletFactory {
     /// @return personalWallet_ Address of the newly created wallet.
     function createPersonalWallet(address walletOwner, string memory walletName) 
         external 
-        returns (address personalWallet_)
+        returns (address personalWallet_);
 }

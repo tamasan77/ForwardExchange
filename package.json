@@ -21,6 +21,7 @@
   "homepage": "https://github.com/tamasan77/ForwardExchange#readme",
   "dependencies": {
     "@chainlink/contracts": "^0.2.1",
-    "@openzeppelin/contracts": "^4.3.2"
+    "@openzeppelin/contracts": "^4.3.2",
+    "chai-truffle": "^0.2.3"
   }
 }

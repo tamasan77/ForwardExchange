@@ -14,7 +14,7 @@ contract PersonalWallet is Pausable, Ownable, IPersonalWallet {
     using SafeERC20 for IERC20;
     address[] public tokens;
     mapping(address => bool) public containsTokens;
-    string name;
+    string public name;
     mapping(address => bool) public contractCollateralApproved;
 
     constructor(string memory _name, address walletOwner) {
@@ -22,7 +22,7 @@ contract PersonalWallet is Pausable, Ownable, IPersonalWallet {
         transferOwnership(walletOwner);
     }
 
-    /// @notice Adds new token ot the tokens array if it is not part of the array yet.
+    /// @notice Adds new token to the tokens array if it is not part of the array yet.
     /// @dev Use containsToken mapping to check if array already contains element or not.
     /// @param newToken Address of the new token to be added
     function addNewToken(address newToken) public override {
