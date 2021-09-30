@@ -56,17 +56,16 @@ contract("PersonalWallet", async accounts => {
             8000000, 
             "allowance error");
     });
-
     it("should catch a non-existing token's approval error", async () => {
         //rinkeby link has not been added to the wallet
-        const rinkebyLinkAddress = "0x514910771AF9Ca656af840dff83E8264EcF986CA";
+        const rinkebyLinkAddress = "0x01BE23585060835E02B77ef475b0Cc51aA1e0709";
         const collateralWalletAddress = collateralWalletInstance.address;
         try {
             await walletInstance.approveCollateral(collateralWalletAddress, 
                 rinkebyLinkAddress, 
                 8000000);
         } catch(e) {
-            //assert(e.message.includes("coll token err"));
+            assert(e.message.includes("coll token err"));
             return;
         }
         assert(false, "non-existing token error");
@@ -82,6 +81,6 @@ contract("PersonalWallet", async accounts => {
             console.log(e.message);
             return;
         }
-        assert(false, "non-existing token error");
+        assert(false, "greater than balance error");
     });
 });
