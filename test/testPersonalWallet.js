@@ -47,7 +47,7 @@ contract("PersonalWallet", async accounts => {
             "Test Collateral Wallet", 
             "collateral wallet not deployed correctly");
         const collateralWalletAddress = collateralWalletInstance.address;
-        //trasnfer 20MIL collateral tokens to personal wallet
+        //transfer 20MIL collateral tokens to personal wallet
         await erc20TokenInstance.transfer(walletInstance.address, 20000000);
         await walletInstance.approveCollateral(collateralWalletAddress, 
             testERC20TokenAddress, 

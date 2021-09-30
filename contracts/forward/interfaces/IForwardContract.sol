@@ -12,6 +12,8 @@ interface IForwardContract {
     /// @param _long Long party
     /// @param _short Short party
     /// @param _collateralWallet Address of the collateral wallet
+    /// @param _longPersonalWallet Address of the long party's personal wallet
+    /// @param _shortPersonalWallet Address of the short party's personal wallet
     /// @param _exposureMarginRate Exposure margin rate.
     /// @param _maintenanceMarginRate Maintenance margin rate.
     /// @param _collateralTokenAddress Address of the ERC20 collateral token.

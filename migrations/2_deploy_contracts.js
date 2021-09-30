@@ -3,6 +3,8 @@ var PersonalWallet = artifacts.require("./personal-wallet/PersonalWallet.sol");
 var TestERC20Token = artifacts.require("./tokens/TestERC20Token.sol");
 var CollateralWallet = artifacts.require("./collateral-wallet/CollateralWallet.sol");
 var CollateralWalletFactory = artifacts.require("./collateral-wallet/CollateralWalletFactory.sol");
+//var ForwardContract = artifacts.require("./forward/ForwardContract.sol");
+var ForwardContractMock = artifacts.require("./mocks/ForwardContractMock.sol");
 
 module.exports = async function(deployer, accounts) {
     await deployer.deploy(PersonalWalletFactory);
@@ -10,4 +12,5 @@ module.exports = async function(deployer, accounts) {
     await deployer.deploy(TestERC20Token, 100000000); //initial supply of a hundered million
     await deployer.deploy(CollateralWallet, "Test Collateral Wallet");
     await deployer.deploy(CollateralWalletFactory);
+    await deployer.deploy(ForwardContractMock);
 };
