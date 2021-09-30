@@ -1,0 +1,1159 @@
+{
+  "contractName": "IChainlinkOracle",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "withdrawer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LinkWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Received",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "apiURLParameters",
+          "type": "string"
+        }
+      ],
+      "name": "requestIndexPrice",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "requestId",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_requestId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "int256",
+          "name": "_result",
+          "type": "int256"
+        }
+      ],
+      "name": "fulfillSigned",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_requestId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_result",
+          "type": "uint256"
+        }
+      ],
+      "name": "fulfillUnsigned",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "withdrawLink",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"withdrawer\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"LinkWithdrawn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"Received\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_requestId\",\"type\":\"bytes32\"},{\"internalType\":\"int256\",\"name\":\"_result\",\"type\":\"int256\"}],\"name\":\"fulfillSigned\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_requestId\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"_result\",\"type\":\"uint256\"}],\"name\":\"fulfillUnsigned\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"apiURLParameters\",\"type\":\"string\"}],\"name\":\"requestIndexPrice\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"requestId\",\"type\":\"bytes32\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"withdrawLink\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"fulfillSigned(bytes32,int256)\":{\"details\":\"It may take up to 3-4 minutes for the job to be fulffilled.\",\"params\":{\"_requestId\":\"ID of the request.\",\"_result\":\"Result of GET request.\"}},\"fulfillUnsigned(bytes32,uint256)\":{\"details\":\"It may take up to 3-4 minutes for the job to be fulffilled.\",\"params\":{\"_requestId\":\"ID of the request.\",\"_result\":\"Result of GET request.\"}},\"requestIndexPrice(string)\":{\"details\":\"For underlying price oracle apiURLParameters is empty string.\",\"params\":{\"apiURLParameters\":\"Parameters added to API URL.\"},\"returns\":{\"requestId\":\"The ID of the request\"}},\"withdrawLink()\":{\"details\":\"Withdraw LINK after the forward contract is settled.\"}},\"title\":\"IChainlinkOracle interface\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"fulfillSigned(bytes32,int256)\":{\"notice\":\"Receive response in the form of int256.\"},\"fulfillUnsigned(bytes32,uint256)\":{\"notice\":\"Receive response in the form of uint256.\"},\"requestIndexPrice(string)\":{\"notice\":\"Create Chainlink request with uint256 job.\"},\"withdrawLink()\":{\"notice\":\"Allows the owner to withdraw the LINK in this contract.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/oracles/interfaces/IChainlinkOracle.sol\":\"IChainlinkOracle\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/oracles/interfaces/IChainlinkOracle.sol\":{\"keccak256\":\"0xb81d3ad09bd0668291d2feb09c7a820908add930fdacc626351f45a5f03b9cbd\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://0effea06eab1dd49f78281ab78e0b8699a545956e4f43cce9845e4eb0fd39082\",\"dweb:/ipfs/QmNgGtKCnki3aRLQ3VA8KEJePL7RCAMEe3LSpSBaCNZRS4\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: UNLICENSED\r\npragma solidity ^0.8.6;\r\n\r\n/// @title IChainlinkOracle interface\r\ninterface IChainlinkOracle {\r\n    event LinkWithdrawn(address withdrawer, uint256 amount);\r\n    event Received(address sender, uint256 amount);\r\n\r\n    /// @notice Create Chainlink request with uint256 job.\r\n    /// @dev For underlying price oracle apiURLParameters is empty string.\r\n    /// @param apiURLParameters Parameters added to API URL.\r\n    /// @return requestId The ID of the request\r\n    function requestIndexPrice(string memory apiURLParameters)\r\n        external\r\n        returns (bytes32 requestId);\r\n\r\n    /// @notice Receive response in the form of int256.\r\n    /// @dev It may take up to 3-4 minutes for the job to be fulffilled.\r\n    /// @param _requestId ID of the request.\r\n    /// @param _result Result of GET request.\r\n    function fulfillSigned(bytes32 _requestId, int256 _result) external;\r\n\r\n    /// @notice Receive response in the form of uint256.\r\n    /// @dev It may take up to 3-4 minutes for the job to be fulffilled.\r\n    /// @param _requestId ID of the request.\r\n    /// @param _result Result of GET request.\r\n    function fulfillUnsigned(bytes32 _requestId, uint256 _result) external;\r\n\r\n    /// @notice Allows the owner to withdraw the LINK in this contract.\r\n    /// @dev Withdraw LINK after the forward contract is settled.\r\n    function withdrawLink() external;\r\n}",
+  "sourcePath": "C:\\Users\\Tomi\\OneDrive - The University of Chicago\\Documents\\Securrency\\ForwardExchange\\contracts\\oracles\\interfaces\\IChainlinkOracle.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/oracles/interfaces/IChainlinkOracle.sol",
+    "exportedSymbols": {
+      "IChainlinkOracle": [
+        5867
+      ]
+    },
+    "id": 5868,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5825,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".6"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "40:23:30"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IChainlinkOracle",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 5826,
+          "nodeType": "StructuredDocumentation",
+          "src": "67:39:30",
+          "text": "@title IChainlinkOracle interface"
+        },
+        "fullyImplemented": false,
+        "id": 5867,
+        "linearizedBaseContracts": [
+          5867
+        ],
+        "name": "IChainlinkOracle",
+        "nameLocation": "116:16:30",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "id": 5832,
+            "name": "LinkWithdrawn",
+            "nameLocation": "146:13:30",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 5831,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5828,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "withdrawer",
+                  "nameLocation": "168:10:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5832,
+                  "src": "160:18:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 5827,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "160:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5830,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "188:6:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5832,
+                  "src": "180:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5829,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "180:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "159:36:30"
+            },
+            "src": "140:56:30"
+          },
+          {
+            "anonymous": false,
+            "id": 5838,
+            "name": "Received",
+            "nameLocation": "208:8:30",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 5837,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5834,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "sender",
+                  "nameLocation": "225:6:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5838,
+                  "src": "217:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 5833,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "217:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5836,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "241:6:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5838,
+                  "src": "233:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5835,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "233:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "216:32:30"
+            },
+            "src": "202:47:30"
+          },
+          {
+            "documentation": {
+              "id": 5839,
+              "nodeType": "StructuredDocumentation",
+              "src": "257:241:30",
+              "text": "@notice Create Chainlink request with uint256 job.\n @dev For underlying price oracle apiURLParameters is empty string.\n @param apiURLParameters Parameters added to API URL.\n @return requestId The ID of the request"
+            },
+            "functionSelector": "69723be7",
+            "id": 5846,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "requestIndexPrice",
+            "nameLocation": "513:17:30",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5842,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5841,
+                  "mutability": "mutable",
+                  "name": "apiURLParameters",
+                  "nameLocation": "545:16:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5846,
+                  "src": "531:30:30",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5840,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "531:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "530:32:30"
+            },
+            "returnParameters": {
+              "id": 5845,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5844,
+                  "mutability": "mutable",
+                  "name": "requestId",
+                  "nameLocation": "607:9:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5846,
+                  "src": "599:17:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5843,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "599:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "598:19:30"
+            },
+            "scope": 5867,
+            "src": "504:114:30",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 5847,
+              "nodeType": "StructuredDocumentation",
+              "src": "626:218:30",
+              "text": "@notice Receive response in the form of int256.\n @dev It may take up to 3-4 minutes for the job to be fulffilled.\n @param _requestId ID of the request.\n @param _result Result of GET request."
+            },
+            "functionSelector": "51744bca",
+            "id": 5854,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "fulfillSigned",
+            "nameLocation": "859:13:30",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5852,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5849,
+                  "mutability": "mutable",
+                  "name": "_requestId",
+                  "nameLocation": "881:10:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5854,
+                  "src": "873:18:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5848,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "873:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5851,
+                  "mutability": "mutable",
+                  "name": "_result",
+                  "nameLocation": "900:7:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5854,
+                  "src": "893:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 5850,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "893:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "872:36:30"
+            },
+            "returnParameters": {
+              "id": 5853,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "917:0:30"
+            },
+            "scope": 5867,
+            "src": "850:68:30",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 5855,
+              "nodeType": "StructuredDocumentation",
+              "src": "926:219:30",
+              "text": "@notice Receive response in the form of uint256.\n @dev It may take up to 3-4 minutes for the job to be fulffilled.\n @param _requestId ID of the request.\n @param _result Result of GET request."
+            },
+            "functionSelector": "7e0b66d0",
+            "id": 5862,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "fulfillUnsigned",
+            "nameLocation": "1160:15:30",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5860,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5857,
+                  "mutability": "mutable",
+                  "name": "_requestId",
+                  "nameLocation": "1184:10:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5862,
+                  "src": "1176:18:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5856,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1176:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5859,
+                  "mutability": "mutable",
+                  "name": "_result",
+                  "nameLocation": "1204:7:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5862,
+                  "src": "1196:15:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5858,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1196:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1175:37:30"
+            },
+            "returnParameters": {
+              "id": 5861,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1221:0:30"
+            },
+            "scope": 5867,
+            "src": "1151:71:30",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 5863,
+              "nodeType": "StructuredDocumentation",
+              "src": "1230:134:30",
+              "text": "@notice Allows the owner to withdraw the LINK in this contract.\n @dev Withdraw LINK after the forward contract is settled."
+            },
+            "functionSelector": "8dc654a2",
+            "id": 5866,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "withdrawLink",
+            "nameLocation": "1379:12:30",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5864,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1391:2:30"
+            },
+            "returnParameters": {
+              "id": 5865,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1402:0:30"
+            },
+            "scope": 5867,
+            "src": "1370:33:30",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5868,
+        "src": "106:1300:30",
+        "usedErrors": []
+      }
+    ],
+    "src": "40:1366:30"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/oracles/interfaces/IChainlinkOracle.sol",
+    "exportedSymbols": {
+      "IChainlinkOracle": [
+        5867
+      ]
+    },
+    "id": 5868,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5825,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".6"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "40:23:30"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IChainlinkOracle",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 5826,
+          "nodeType": "StructuredDocumentation",
+          "src": "67:39:30",
+          "text": "@title IChainlinkOracle interface"
+        },
+        "fullyImplemented": false,
+        "id": 5867,
+        "linearizedBaseContracts": [
+          5867
+        ],
+        "name": "IChainlinkOracle",
+        "nameLocation": "116:16:30",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "id": 5832,
+            "name": "LinkWithdrawn",
+            "nameLocation": "146:13:30",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 5831,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5828,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "withdrawer",
+                  "nameLocation": "168:10:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5832,
+                  "src": "160:18:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 5827,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "160:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5830,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "188:6:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5832,
+                  "src": "180:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5829,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "180:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "159:36:30"
+            },
+            "src": "140:56:30"
+          },
+          {
+            "anonymous": false,
+            "id": 5838,
+            "name": "Received",
+            "nameLocation": "208:8:30",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 5837,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5834,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "sender",
+                  "nameLocation": "225:6:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5838,
+                  "src": "217:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 5833,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "217:7:30",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5836,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "241:6:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5838,
+                  "src": "233:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5835,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "233:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "216:32:30"
+            },
+            "src": "202:47:30"
+          },
+          {
+            "documentation": {
+              "id": 5839,
+              "nodeType": "StructuredDocumentation",
+              "src": "257:241:30",
+              "text": "@notice Create Chainlink request with uint256 job.\n @dev For underlying price oracle apiURLParameters is empty string.\n @param apiURLParameters Parameters added to API URL.\n @return requestId The ID of the request"
+            },
+            "functionSelector": "69723be7",
+            "id": 5846,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "requestIndexPrice",
+            "nameLocation": "513:17:30",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5842,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5841,
+                  "mutability": "mutable",
+                  "name": "apiURLParameters",
+                  "nameLocation": "545:16:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5846,
+                  "src": "531:30:30",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5840,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "531:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "530:32:30"
+            },
+            "returnParameters": {
+              "id": 5845,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5844,
+                  "mutability": "mutable",
+                  "name": "requestId",
+                  "nameLocation": "607:9:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5846,
+                  "src": "599:17:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5843,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "599:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "598:19:30"
+            },
+            "scope": 5867,
+            "src": "504:114:30",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 5847,
+              "nodeType": "StructuredDocumentation",
+              "src": "626:218:30",
+              "text": "@notice Receive response in the form of int256.\n @dev It may take up to 3-4 minutes for the job to be fulffilled.\n @param _requestId ID of the request.\n @param _result Result of GET request."
+            },
+            "functionSelector": "51744bca",
+            "id": 5854,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "fulfillSigned",
+            "nameLocation": "859:13:30",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5852,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5849,
+                  "mutability": "mutable",
+                  "name": "_requestId",
+                  "nameLocation": "881:10:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5854,
+                  "src": "873:18:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5848,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "873:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5851,
+                  "mutability": "mutable",
+                  "name": "_result",
+                  "nameLocation": "900:7:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5854,
+                  "src": "893:14:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 5850,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "893:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "872:36:30"
+            },
+            "returnParameters": {
+              "id": 5853,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "917:0:30"
+            },
+            "scope": 5867,
+            "src": "850:68:30",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 5855,
+              "nodeType": "StructuredDocumentation",
+              "src": "926:219:30",
+              "text": "@notice Receive response in the form of uint256.\n @dev It may take up to 3-4 minutes for the job to be fulffilled.\n @param _requestId ID of the request.\n @param _result Result of GET request."
+            },
+            "functionSelector": "7e0b66d0",
+            "id": 5862,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "fulfillUnsigned",
+            "nameLocation": "1160:15:30",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5860,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5857,
+                  "mutability": "mutable",
+                  "name": "_requestId",
+                  "nameLocation": "1184:10:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5862,
+                  "src": "1176:18:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5856,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1176:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5859,
+                  "mutability": "mutable",
+                  "name": "_result",
+                  "nameLocation": "1204:7:30",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5862,
+                  "src": "1196:15:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5858,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1196:7:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1175:37:30"
+            },
+            "returnParameters": {
+              "id": 5861,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1221:0:30"
+            },
+            "scope": 5867,
+            "src": "1151:71:30",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 5863,
+              "nodeType": "StructuredDocumentation",
+              "src": "1230:134:30",
+              "text": "@notice Allows the owner to withdraw the LINK in this contract.\n @dev Withdraw LINK after the forward contract is settled."
+            },
+            "functionSelector": "8dc654a2",
+            "id": 5866,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "withdrawLink",
+            "nameLocation": "1379:12:30",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5864,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1391:2:30"
+            },
+            "returnParameters": {
+              "id": 5865,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1402:0:30"
+            },
+            "scope": 5867,
+            "src": "1370:33:30",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5868,
+        "src": "106:1300:30",
+        "usedErrors": []
+      }
+    ],
+    "src": "40:1366:30"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.9+commit.e5eed63a.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.3",
+  "updatedAt": "2021-09-30T21:50:57.367Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "fulfillSigned(bytes32,int256)": {
+        "details": "It may take up to 3-4 minutes for the job to be fulffilled.",
+        "params": {
+          "_requestId": "ID of the request.",
+          "_result": "Result of GET request."
+        }
+      },
+      "fulfillUnsigned(bytes32,uint256)": {
+        "details": "It may take up to 3-4 minutes for the job to be fulffilled.",
+        "params": {
+          "_requestId": "ID of the request.",
+          "_result": "Result of GET request."
+        }
+      },
+      "requestIndexPrice(string)": {
+        "details": "For underlying price oracle apiURLParameters is empty string.",
+        "params": {
+          "apiURLParameters": "Parameters added to API URL."
+        },
+        "returns": {
+          "requestId": "The ID of the request"
+        }
+      },
+      "withdrawLink()": {
+        "details": "Withdraw LINK after the forward contract is settled."
+      }
+    },
+    "title": "IChainlinkOracle interface",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "fulfillSigned(bytes32,int256)": {
+        "notice": "Receive response in the form of int256."
+      },
+      "fulfillUnsigned(bytes32,uint256)": {
+        "notice": "Receive response in the form of uint256."
+      },
+      "requestIndexPrice(string)": {
+        "notice": "Create Chainlink request with uint256 job."
+      },
+      "withdrawLink()": {
+        "notice": "Allows the owner to withdraw the LINK in this contract."
+      }
+    },
+    "version": 1
+  }
+}

@@ -1,0 +1,507 @@
+{
+  "contractName": "IPersonalWalletFactory",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "walletOwner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "newPersonalWalletAddress",
+          "type": "address"
+        }
+      ],
+      "name": "WalletCreated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "walletOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "walletName",
+          "type": "string"
+        }
+      ],
+      "name": "createPersonalWallet",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"walletOwner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"newPersonalWalletAddress\",\"type\":\"address\"}],\"name\":\"WalletCreated\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"walletOwner\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"walletName\",\"type\":\"string\"}],\"name\":\"createPersonalWallet\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"createPersonalWallet(address,string)\":{\"params\":{\"walletName\":\"Name of the wallet\",\"walletOwner\":\"Address of the owner of the wallet\"}}},\"title\":\"IPersonalWalletFactory interface\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"createPersonalWallet(address,string)\":{\"notice\":\"Creates Personal Wallet\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/personal-wallet/interfaces/IPersonalWalletFactory.sol\":\"IPersonalWalletFactory\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/personal-wallet/interfaces/IPersonalWalletFactory.sol\":{\"keccak256\":\"0xf2649c5a7a53162f295bb0bc6a08bb488f12f6959f885e91b0c2c588af9e203d\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://6d2b0afd36f51420ac5dafafa3dc349a0c92ed9c209dc173d97a743f6a08873f\",\"dweb:/ipfs/QmYCCc6RziF5vUZ3vxtpeXXwisfJBAyoRUj4dq5zirgtfr\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: UNLICENSED\r\npragma solidity ^0.8.6;\r\n\r\n/// @title IPersonalWalletFactory interface\r\ninterface IPersonalWalletFactory {\r\n    event WalletCreated(address walletOwner, address newPersonalWalletAddress);\r\n\r\n    /// @notice Creates Personal Wallet\r\n    /// @param walletOwner Address of the owner of the wallet\r\n    /// @param walletName Name of the wallet\r\n    function createPersonalWallet(address walletOwner, string memory walletName) external;\r\n}",
+  "sourcePath": "C:\\Users\\Tomi\\OneDrive - The University of Chicago\\Documents\\Securrency\\ForwardExchange\\contracts\\personal-wallet\\interfaces\\IPersonalWalletFactory.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/personal-wallet/interfaces/IPersonalWalletFactory.sol",
+    "exportedSymbols": {
+      "IPersonalWalletFactory": [
+        6309
+      ]
+    },
+    "id": 6310,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 6293,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".6"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "40:23:39"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IPersonalWalletFactory",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 6294,
+          "nodeType": "StructuredDocumentation",
+          "src": "67:45:39",
+          "text": "@title IPersonalWalletFactory interface"
+        },
+        "fullyImplemented": false,
+        "id": 6309,
+        "linearizedBaseContracts": [
+          6309
+        ],
+        "name": "IPersonalWalletFactory",
+        "nameLocation": "122:22:39",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "id": 6300,
+            "name": "WalletCreated",
+            "nameLocation": "158:13:39",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 6299,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6296,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "walletOwner",
+                  "nameLocation": "180:11:39",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6300,
+                  "src": "172:19:39",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6295,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "172:7:39",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6298,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "newPersonalWalletAddress",
+                  "nameLocation": "201:24:39",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6300,
+                  "src": "193:32:39",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6297,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "193:7:39",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "171:55:39"
+            },
+            "src": "152:75:39"
+          },
+          {
+            "documentation": {
+              "id": 6301,
+              "nodeType": "StructuredDocumentation",
+              "src": "235:144:39",
+              "text": "@notice Creates Personal Wallet\n @param walletOwner Address of the owner of the wallet\n @param walletName Name of the wallet"
+            },
+            "functionSelector": "78aee774",
+            "id": 6308,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createPersonalWallet",
+            "nameLocation": "394:20:39",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6306,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6303,
+                  "mutability": "mutable",
+                  "name": "walletOwner",
+                  "nameLocation": "423:11:39",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6308,
+                  "src": "415:19:39",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6302,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "415:7:39",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6305,
+                  "mutability": "mutable",
+                  "name": "walletName",
+                  "nameLocation": "450:10:39",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6308,
+                  "src": "436:24:39",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 6304,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "436:6:39",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "414:47:39"
+            },
+            "returnParameters": {
+              "id": 6307,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "470:0:39"
+            },
+            "scope": 6309,
+            "src": "385:86:39",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 6310,
+        "src": "112:362:39",
+        "usedErrors": []
+      }
+    ],
+    "src": "40:434:39"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/personal-wallet/interfaces/IPersonalWalletFactory.sol",
+    "exportedSymbols": {
+      "IPersonalWalletFactory": [
+        6309
+      ]
+    },
+    "id": 6310,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 6293,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".6"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "40:23:39"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IPersonalWalletFactory",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 6294,
+          "nodeType": "StructuredDocumentation",
+          "src": "67:45:39",
+          "text": "@title IPersonalWalletFactory interface"
+        },
+        "fullyImplemented": false,
+        "id": 6309,
+        "linearizedBaseContracts": [
+          6309
+        ],
+        "name": "IPersonalWalletFactory",
+        "nameLocation": "122:22:39",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "id": 6300,
+            "name": "WalletCreated",
+            "nameLocation": "158:13:39",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 6299,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6296,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "walletOwner",
+                  "nameLocation": "180:11:39",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6300,
+                  "src": "172:19:39",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6295,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "172:7:39",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6298,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "newPersonalWalletAddress",
+                  "nameLocation": "201:24:39",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6300,
+                  "src": "193:32:39",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6297,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "193:7:39",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "171:55:39"
+            },
+            "src": "152:75:39"
+          },
+          {
+            "documentation": {
+              "id": 6301,
+              "nodeType": "StructuredDocumentation",
+              "src": "235:144:39",
+              "text": "@notice Creates Personal Wallet\n @param walletOwner Address of the owner of the wallet\n @param walletName Name of the wallet"
+            },
+            "functionSelector": "78aee774",
+            "id": 6308,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createPersonalWallet",
+            "nameLocation": "394:20:39",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6306,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6303,
+                  "mutability": "mutable",
+                  "name": "walletOwner",
+                  "nameLocation": "423:11:39",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6308,
+                  "src": "415:19:39",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6302,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "415:7:39",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6305,
+                  "mutability": "mutable",
+                  "name": "walletName",
+                  "nameLocation": "450:10:39",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6308,
+                  "src": "436:24:39",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 6304,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "436:6:39",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "414:47:39"
+            },
+            "returnParameters": {
+              "id": 6307,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "470:0:39"
+            },
+            "scope": 6309,
+            "src": "385:86:39",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 6310,
+        "src": "112:362:39",
+        "usedErrors": []
+      }
+    ],
+    "src": "40:434:39"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.9+commit.e5eed63a.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.3",
+  "updatedAt": "2021-09-30T21:50:57.437Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "createPersonalWallet(address,string)": {
+        "params": {
+          "walletName": "Name of the wallet",
+          "walletOwner": "Address of the owner of the wallet"
+        }
+      }
+    },
+    "title": "IPersonalWalletFactory interface",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "createPersonalWallet(address,string)": {
+        "notice": "Creates Personal Wallet"
+      }
+    },
+    "version": 1
+  }
+}

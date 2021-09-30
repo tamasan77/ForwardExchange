@@ -13,4 +13,5 @@ module.exports = async function(deployer, accounts) {
     await deployer.deploy(CollateralWallet, "Test Collateral Wallet");
     await deployer.deploy(CollateralWalletFactory);
     await deployer.deploy(ForwardContractMock);
+    //await deployer.deploy(ForwardContract);
 };

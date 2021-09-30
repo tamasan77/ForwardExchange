@@ -1,0 +1,443 @@
+{
+  "contractName": "ICollateralWalletFactory",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "newWalletAddress",
+          "type": "address"
+        }
+      ],
+      "name": "CreatedWallet",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_walletName",
+          "type": "string"
+        }
+      ],
+      "name": "createCollateralWallet",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"newWalletAddress\",\"type\":\"address\"}],\"name\":\"CreatedWallet\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_walletName\",\"type\":\"string\"}],\"name\":\"createCollateralWallet\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"createCollateralWallet(string)\":{\"params\":{\"_walletName\":\"name of wallet\"}}},\"title\":\"ICollateralWalletFactory interface\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"createCollateralWallet(string)\":{\"notice\":\"Creates new collateral wallet with given name and owner.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/collateral-wallet/interfaces/ICollateralWalletFactory.sol\":\"ICollateralWalletFactory\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/collateral-wallet/interfaces/ICollateralWalletFactory.sol\":{\"keccak256\":\"0x77b979c0579e8311e404fcfd269ad870a6711f0acddb7ca67f8549b8f278ccdd\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://40bdd371ab27e9e571ec94f70bcf8b8110be0a18011cf7f16f80eda222e83b67\",\"dweb:/ipfs/QmVvoXjnxBZ6nkqvvqnYoyETWqYHR2irhKT5Xf3PNGHKf3\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: UNLICENSED\r\npragma solidity ^0.8.6;\r\n\r\n/// @title ICollateralWalletFactory interface\r\ninterface ICollateralWalletFactory {\r\n    event CreatedWallet(string name, address newWalletAddress);\r\n\r\n    /// @notice Creates new collateral wallet with given name and owner.\r\n    /// @param _walletName name of wallet\r\n    function createCollateralWallet(string memory _walletName) external;\r\n}",
+  "sourcePath": "C:\\Users\\Tomi\\OneDrive - The University of Chicago\\Documents\\Securrency\\ForwardExchange\\contracts\\collateral-wallet\\interfaces\\ICollateralWalletFactory.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/collateral-wallet/interfaces/ICollateralWalletFactory.sol",
+    "exportedSymbols": {
+      "ICollateralWalletFactory": [
+        4122
+      ]
+    },
+    "id": 4123,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4108,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".6"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "40:23:23"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ICollateralWalletFactory",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 4109,
+          "nodeType": "StructuredDocumentation",
+          "src": "67:47:23",
+          "text": "@title ICollateralWalletFactory interface"
+        },
+        "fullyImplemented": false,
+        "id": 4122,
+        "linearizedBaseContracts": [
+          4122
+        ],
+        "name": "ICollateralWalletFactory",
+        "nameLocation": "124:24:23",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "id": 4115,
+            "name": "CreatedWallet",
+            "nameLocation": "162:13:23",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 4114,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4111,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "name",
+                  "nameLocation": "183:4:23",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4115,
+                  "src": "176:11:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 4110,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "176:6:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4113,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "newWalletAddress",
+                  "nameLocation": "197:16:23",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4115,
+                  "src": "189:24:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4112,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "189:7:23",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "175:39:23"
+            },
+            "src": "156:59:23"
+          },
+          {
+            "documentation": {
+              "id": 4116,
+              "nodeType": "StructuredDocumentation",
+              "src": "223:111:23",
+              "text": "@notice Creates new collateral wallet with given name and owner.\n @param _walletName name of wallet"
+            },
+            "functionSelector": "5c16a60d",
+            "id": 4121,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createCollateralWallet",
+            "nameLocation": "349:22:23",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4119,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4118,
+                  "mutability": "mutable",
+                  "name": "_walletName",
+                  "nameLocation": "386:11:23",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4121,
+                  "src": "372:25:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 4117,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "372:6:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "371:27:23"
+            },
+            "returnParameters": {
+              "id": 4120,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "407:0:23"
+            },
+            "scope": 4122,
+            "src": "340:68:23",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 4123,
+        "src": "114:297:23",
+        "usedErrors": []
+      }
+    ],
+    "src": "40:371:23"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/collateral-wallet/interfaces/ICollateralWalletFactory.sol",
+    "exportedSymbols": {
+      "ICollateralWalletFactory": [
+        4122
+      ]
+    },
+    "id": 4123,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4108,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".6"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "40:23:23"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ICollateralWalletFactory",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 4109,
+          "nodeType": "StructuredDocumentation",
+          "src": "67:47:23",
+          "text": "@title ICollateralWalletFactory interface"
+        },
+        "fullyImplemented": false,
+        "id": 4122,
+        "linearizedBaseContracts": [
+          4122
+        ],
+        "name": "ICollateralWalletFactory",
+        "nameLocation": "124:24:23",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "id": 4115,
+            "name": "CreatedWallet",
+            "nameLocation": "162:13:23",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 4114,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4111,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "name",
+                  "nameLocation": "183:4:23",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4115,
+                  "src": "176:11:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 4110,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "176:6:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4113,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "newWalletAddress",
+                  "nameLocation": "197:16:23",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4115,
+                  "src": "189:24:23",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4112,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "189:7:23",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "175:39:23"
+            },
+            "src": "156:59:23"
+          },
+          {
+            "documentation": {
+              "id": 4116,
+              "nodeType": "StructuredDocumentation",
+              "src": "223:111:23",
+              "text": "@notice Creates new collateral wallet with given name and owner.\n @param _walletName name of wallet"
+            },
+            "functionSelector": "5c16a60d",
+            "id": 4121,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createCollateralWallet",
+            "nameLocation": "349:22:23",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4119,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4118,
+                  "mutability": "mutable",
+                  "name": "_walletName",
+                  "nameLocation": "386:11:23",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4121,
+                  "src": "372:25:23",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 4117,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "372:6:23",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "371:27:23"
+            },
+            "returnParameters": {
+              "id": 4120,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "407:0:23"
+            },
+            "scope": 4122,
+            "src": "340:68:23",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 4123,
+        "src": "114:297:23",
+        "usedErrors": []
+      }
+    ],
+    "src": "40:371:23"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.9+commit.e5eed63a.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.3",
+  "updatedAt": "2021-09-30T21:50:57.286Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "createCollateralWallet(string)": {
+        "params": {
+          "_walletName": "name of wallet"
+        }
+      }
+    },
+    "title": "ICollateralWalletFactory interface",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "createCollateralWallet(string)": {
+        "notice": "Creates new collateral wallet with given name and owner."
+      }
+    },
+    "version": 1
+  }
+}

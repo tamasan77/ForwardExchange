@@ -14,10 +14,12 @@ contract("CollateralWallet", async accounts => {
     let longPersonalWalletInstance;
     let forwardContractInstance;
     let erc20TokenInstance;
+    let forwardContractAddress;
     before(async() => {
         walletInstance = await CollateralWallet.deployed();
         personalWalletFactoryInstance = await PersonalWalletFactory.deployed();
         forwardContractInstance = await ForwardContractMock.deployed();
+        forwardContractAddress = forwardContractInstance.address;
         erc20TokenInstance = await TestERC20Token.deployed();
         await personalWalletFactoryInstance.createPersonalWallet(accounts[0], "Short Personal Wallet");
         await personalWalletFactoryInstance.createPersonalWallet(accounts[1], "Long Personal Wallet");
@@ -36,8 +38,34 @@ contract("CollateralWallet", async accounts => {
     it("should deploy properly", async () => {
         assert.equal(await walletInstance.walletName(), "Test Collateral Wallet", "deployment error");
     });
-    it("should transfer initial collateral from both personal wallets", async () => {
-        
+    it("should transfer initial collateral from both personal wallets, store forward contract address and store collateral token address if not stored yet", 
+        async () => {
+        const initialCollateralAmount = 4000000;//4MIL
+        //aprove the amount from personal wallets
+        await shortPersonalWalletInstance.approveCollateral(
+            walletInstance.address, 
+            testERC20TokenAddress, 
+            4000000);
+        await longPersonalWalletInstance.approveCollateral(
+            walletInstance.address, 
+            testERC20TokenAddress, 
+            4000000);
+        await walletInstance.setupInitialCollateral(
+            forwardContractAddress,
+            shortPersonalWalletAddress,
+            longPersonalWalletAddress,
+            testERC20TokenAddress,
+            initialCollateralAmount
+        );
+        assert.equal(await walletInstance.tokens(0), testERC20TokenAddress, "token not added");
+        assert.equal(await walletInstance.forwardContract(0), forwardContractAddress, "forward contract not added");
+        assert.equal(await walletInstance.forwardToShortWallet(forwardContractAddress), shortPersonalWalletAddress, "short wallet not set");
+        assert.equal(await walletInstance.forwardToLongWallet(forwardContractAddress), longPersonalWalletAddress, "long wallet not set");
+        assert.equal(await walletInstance.forwardToShortBalance(forwardContractAddress), initialCollateralAmount, "short balance not set");
+        assert.equal(await walletInstance.forwardToLongBalance(forwardContractAddress), initialCollateralAmount, "long balance not set");
+        assert.equal(await erc20TokenInstance.balanceOf(walletInstance.address), 2 * initialCollateralAmount, "collateral wallet balance incorrect");
+        assert.equal(await erc20TokenInstance.balanceOf(shortPersonalWalletAddress), 16000000, "short personal wallet balance incorrect");
+        assert.equal(await erc20TokenInstance.balanceOf(longPersonalWalletAddress), 16000000, "long personal wallet balance incorrect");
     });
     it("should adjust balances of two parties according to m-to-m", async () => {
 

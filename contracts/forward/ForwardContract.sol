@@ -66,9 +66,11 @@ contract ForwardContract is IForwardContract, ChainlinkClient, Ownable{
         usdRiskFreeRateOracleAddress = _usdRiskFreeRateOracleAddress;
         underlyingOracleAddress = payable(address(new LinkPoolUintOracle(
             _underlyingDecimalScale, _underlyingApiURL, _underlyingApiPath)));
-        //Update API path of risk free rate according to maturity of contract.      
+        /*
+        //Update API path of risk free rate according to maturity of contract.    
         USDRFROracle(usdRiskFreeRateOracleAddress).updateAPIPath(
-            int(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate)));
+            int(DateTimeLibrary.diffSeconds(block.timestamp, expirationDate)));*/
+        /*
         //Fund oracles with link
         LinkTokenInterface linkTokenAddress = LinkTokenInterface(
             LinkPoolValuationOracle(valuationOracleAddress)._linkAddress());//Link address on kovan
@@ -83,7 +85,7 @@ contract ForwardContract is IForwardContract, ChainlinkClient, Ownable{
         linkTokenAddress.transfer(
             usdRiskFreeRateOracleAddress, 
             ((DateTimeLibrary.diffSeconds(block.timestamp, expirationDate) / 86400) + 5) * 
-                USDRFROracle(valuationOracleAddress).fee());
+                USDRFROracle(valuationOracleAddress).fee());*/
         contractState = ContractState.Created;
     }
 

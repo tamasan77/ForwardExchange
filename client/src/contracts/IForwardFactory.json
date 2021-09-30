@@ -1,0 +1,868 @@
+{
+  "contractName": "IForwardFactory",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "symbol",
+          "type": "bytes32"
+        }
+      ],
+      "name": "ForwardCreated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "symbol",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "sizeOfContract",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "expirationDate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "underlyingApiURL",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "underlyingApiPath",
+          "type": "string"
+        },
+        {
+          "internalType": "int256",
+          "name": "underlyingDecimalScale",
+          "type": "int256"
+        }
+      ],
+      "name": "createForwardContract",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "forwardContractAddress_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"symbol\",\"type\":\"bytes32\"}],\"name\":\"ForwardCreated\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"bytes32\",\"name\":\"symbol\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"sizeOfContract\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"expirationDate\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"underlyingApiURL\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"underlyingApiPath\",\"type\":\"string\"},{\"internalType\":\"int256\",\"name\":\"underlyingDecimalScale\",\"type\":\"int256\"}],\"name\":\"createForwardContract\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"forwardContractAddress_\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"createForwardContract(string,bytes32,uint256,uint256,string,string,int256)\":{\"params\":{\"expirationDate\":\"Date of expiration of contract\",\"name\":\"Name of forward.\",\"sizeOfContract\":\"size of contract to be created\",\"symbol\":\"Symbol of forward\",\"underlyingApiPath\":\"JSON path to underlying asset's price.\",\"underlyingApiURL\":\"URL of underlying asset\",\"underlyingDecimalScale\":\"Decimal scale\"},\"returns\":{\"forwardContractAddress_\":\"Address of forward contract.\"}}},\"title\":\"IForwardFactory interface\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"createForwardContract(string,bytes32,uint256,uint256,string,string,int256)\":{\"notice\":\"Create forward contract.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/forward/interfaces/IForwardFactory.sol\":\"IForwardFactory\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/forward/interfaces/IForwardFactory.sol\":{\"keccak256\":\"0x35a93d3a0bdb643edd75f72fea445775491507c359d7358f655f977ade75cfc0\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://863edb5513bb87dbdbf3e2fb39e421b1bae9fd40fa4072a039ee5c26aef2412a\",\"dweb:/ipfs/QmZDFCNJFCCZ6HEadBN9kuCJjt9wx4aSxKJn2vSdoX7MmA\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: UNLICENSED\r\npragma solidity ^0.8.6;\r\n\r\n/// @title IForwardFactory interface\r\ninterface IForwardFactory {\r\n    event ForwardCreated(string name, bytes32 symbol);\r\n\r\n    /// @notice Create forward contract.\r\n    /// @param name Name of forward.\r\n    /// @param symbol Symbol of forward\r\n    /// @param sizeOfContract size of contract to be created\r\n    /// @param expirationDate Date of expiration of contract\r\n    /// @param underlyingApiURL URL of underlying asset\r\n    /// @param underlyingApiPath JSON path to underlying asset's price.\r\n    /// @param underlyingDecimalScale Decimal scale\r\n    /// @return forwardContractAddress_ Address of forward contract.\r\n    function createForwardContract(\r\n        string memory name, \r\n        bytes32 symbol,\r\n        uint256 sizeOfContract,\r\n        uint256 expirationDate,\r\n        string memory underlyingApiURL,\r\n        string memory underlyingApiPath,\r\n        int256 underlyingDecimalScale\r\n        ) \r\n        external returns (address forwardContractAddress_);\r\n}",
+  "sourcePath": "C:\\Users\\Tomi\\OneDrive - The University of Chicago\\Documents\\Securrency\\ForwardExchange\\contracts\\forward\\interfaces\\IForwardFactory.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/forward/interfaces/IForwardFactory.sol",
+    "exportedSymbols": {
+      "IForwardFactory": [
+        5479
+      ]
+    },
+    "id": 5480,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5451,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".6"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "40:23:27"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IForwardFactory",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 5452,
+          "nodeType": "StructuredDocumentation",
+          "src": "67:38:27",
+          "text": "@title IForwardFactory interface"
+        },
+        "fullyImplemented": false,
+        "id": 5479,
+        "linearizedBaseContracts": [
+          5479
+        ],
+        "name": "IForwardFactory",
+        "nameLocation": "115:15:27",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "id": 5458,
+            "name": "ForwardCreated",
+            "nameLocation": "144:14:27",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 5457,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5454,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "name",
+                  "nameLocation": "166:4:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5458,
+                  "src": "159:11:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5453,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "159:6:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5456,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "symbol",
+                  "nameLocation": "180:6:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5458,
+                  "src": "172:14:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5455,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "172:7:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "158:29:27"
+            },
+            "src": "138:50:27"
+          },
+          {
+            "documentation": {
+              "id": 5459,
+              "nodeType": "StructuredDocumentation",
+              "src": "196:492:27",
+              "text": "@notice Create forward contract.\n @param name Name of forward.\n @param symbol Symbol of forward\n @param sizeOfContract size of contract to be created\n @param expirationDate Date of expiration of contract\n @param underlyingApiURL URL of underlying asset\n @param underlyingApiPath JSON path to underlying asset's price.\n @param underlyingDecimalScale Decimal scale\n @return forwardContractAddress_ Address of forward contract."
+            },
+            "functionSelector": "07a8d089",
+            "id": 5478,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createForwardContract",
+            "nameLocation": "703:21:27",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5474,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5461,
+                  "mutability": "mutable",
+                  "name": "name",
+                  "nameLocation": "749:4:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "735:18:27",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5460,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "735:6:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5463,
+                  "mutability": "mutable",
+                  "name": "symbol",
+                  "nameLocation": "773:6:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "765:14:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5462,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "765:7:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5465,
+                  "mutability": "mutable",
+                  "name": "sizeOfContract",
+                  "nameLocation": "798:14:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "790:22:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5464,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "790:7:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5467,
+                  "mutability": "mutable",
+                  "name": "expirationDate",
+                  "nameLocation": "831:14:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "823:22:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5466,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "823:7:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5469,
+                  "mutability": "mutable",
+                  "name": "underlyingApiURL",
+                  "nameLocation": "870:16:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "856:30:27",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5468,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "856:6:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5471,
+                  "mutability": "mutable",
+                  "name": "underlyingApiPath",
+                  "nameLocation": "911:17:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "897:31:27",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5470,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "897:6:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5473,
+                  "mutability": "mutable",
+                  "name": "underlyingDecimalScale",
+                  "nameLocation": "946:22:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "939:29:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 5472,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "939:6:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "724:255:27"
+            },
+            "returnParameters": {
+              "id": 5477,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5476,
+                  "mutability": "mutable",
+                  "name": "forwardContractAddress_",
+                  "nameLocation": "1016:23:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "1008:31:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 5475,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1008:7:27",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1007:33:27"
+            },
+            "scope": 5479,
+            "src": "694:347:27",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5480,
+        "src": "105:939:27",
+        "usedErrors": []
+      }
+    ],
+    "src": "40:1004:27"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/forward/interfaces/IForwardFactory.sol",
+    "exportedSymbols": {
+      "IForwardFactory": [
+        5479
+      ]
+    },
+    "id": 5480,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5451,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".6"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "40:23:27"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IForwardFactory",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 5452,
+          "nodeType": "StructuredDocumentation",
+          "src": "67:38:27",
+          "text": "@title IForwardFactory interface"
+        },
+        "fullyImplemented": false,
+        "id": 5479,
+        "linearizedBaseContracts": [
+          5479
+        ],
+        "name": "IForwardFactory",
+        "nameLocation": "115:15:27",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "id": 5458,
+            "name": "ForwardCreated",
+            "nameLocation": "144:14:27",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 5457,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5454,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "name",
+                  "nameLocation": "166:4:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5458,
+                  "src": "159:11:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5453,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "159:6:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5456,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "symbol",
+                  "nameLocation": "180:6:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5458,
+                  "src": "172:14:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5455,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "172:7:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "158:29:27"
+            },
+            "src": "138:50:27"
+          },
+          {
+            "documentation": {
+              "id": 5459,
+              "nodeType": "StructuredDocumentation",
+              "src": "196:492:27",
+              "text": "@notice Create forward contract.\n @param name Name of forward.\n @param symbol Symbol of forward\n @param sizeOfContract size of contract to be created\n @param expirationDate Date of expiration of contract\n @param underlyingApiURL URL of underlying asset\n @param underlyingApiPath JSON path to underlying asset's price.\n @param underlyingDecimalScale Decimal scale\n @return forwardContractAddress_ Address of forward contract."
+            },
+            "functionSelector": "07a8d089",
+            "id": 5478,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createForwardContract",
+            "nameLocation": "703:21:27",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5474,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5461,
+                  "mutability": "mutable",
+                  "name": "name",
+                  "nameLocation": "749:4:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "735:18:27",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5460,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "735:6:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5463,
+                  "mutability": "mutable",
+                  "name": "symbol",
+                  "nameLocation": "773:6:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "765:14:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5462,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "765:7:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5465,
+                  "mutability": "mutable",
+                  "name": "sizeOfContract",
+                  "nameLocation": "798:14:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "790:22:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5464,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "790:7:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5467,
+                  "mutability": "mutable",
+                  "name": "expirationDate",
+                  "nameLocation": "831:14:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "823:22:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5466,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "823:7:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5469,
+                  "mutability": "mutable",
+                  "name": "underlyingApiURL",
+                  "nameLocation": "870:16:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "856:30:27",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5468,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "856:6:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5471,
+                  "mutability": "mutable",
+                  "name": "underlyingApiPath",
+                  "nameLocation": "911:17:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "897:31:27",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 5470,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "897:6:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5473,
+                  "mutability": "mutable",
+                  "name": "underlyingDecimalScale",
+                  "nameLocation": "946:22:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "939:29:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 5472,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "939:6:27",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "724:255:27"
+            },
+            "returnParameters": {
+              "id": 5477,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5476,
+                  "mutability": "mutable",
+                  "name": "forwardContractAddress_",
+                  "nameLocation": "1016:23:27",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5478,
+                  "src": "1008:31:27",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 5475,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1008:7:27",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1007:33:27"
+            },
+            "scope": 5479,
+            "src": "694:347:27",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 5480,
+        "src": "105:939:27",
+        "usedErrors": []
+      }
+    ],
+    "src": "40:1004:27"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.9+commit.e5eed63a.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.3",
+  "updatedAt": "2021-09-30T21:50:57.331Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "createForwardContract(string,bytes32,uint256,uint256,string,string,int256)": {
+        "params": {
+          "expirationDate": "Date of expiration of contract",
+          "name": "Name of forward.",
+          "sizeOfContract": "size of contract to be created",
+          "symbol": "Symbol of forward",
+          "underlyingApiPath": "JSON path to underlying asset's price.",
+          "underlyingApiURL": "URL of underlying asset",
+          "underlyingDecimalScale": "Decimal scale"
+        },
+        "returns": {
+          "forwardContractAddress_": "Address of forward contract."
+        }
+      }
+    },
+    "title": "IForwardFactory interface",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "createForwardContract(string,bytes32,uint256,uint256,string,string,int256)": {
+        "notice": "Create forward contract."
+      }
+    },
+    "version": 1
+  }
+}

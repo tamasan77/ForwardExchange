@@ -1,0 +1,550 @@
+{
+  "contractName": "IPersonalWallet",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newToken",
+          "type": "address"
+        }
+      ],
+      "name": "addNewToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "collateralWallet",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "collateralToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "approveCollateral",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newToken\",\"type\":\"address\"}],\"name\":\"addNewToken\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"collateralWallet\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"collateralToken\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"approveCollateral\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"addNewToken(address)\":{\"details\":\"Use containsToken mapping to check if array already contains element or not.\",\"params\":{\"newToken\":\"Address of the new token to be added\"}},\"approveCollateral(address,address,uint256)\":{\"params\":{\"amount\":\"Amount of tokens to be approved.\",\"collateralToken\":\"Address of the token to be approved.\",\"collateralWallet\":\"Address of the collateral wallet that needs approval.\"}}},\"title\":\"IPersonalWallet interface\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"addNewToken(address)\":{\"notice\":\"Adds new token ot the tokens array if it is not part of the array yet.\"},\"approveCollateral(address,address,uint256)\":{\"notice\":\"Approves collateral wallet to transfer given amount of collateral.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/personal-wallet/interfaces/IPersonalWallet.sol\":\"IPersonalWallet\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/personal-wallet/interfaces/IPersonalWallet.sol\":{\"keccak256\":\"0x6b6c5fa15f255c74876b38cd7aa5516ffe187ac36bd39aece968880eb85144ba\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://5955f591445e5639c555d8fc89ea586e47478a922e64dc55f4b54f4704404afd\",\"dweb:/ipfs/QmYQXBdw3jiWBSaXycFZN215827moqHyL59LKbUcX3EVgp\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: UNLICENSED\r\npragma solidity ^0.8.6;\r\n\r\n/// @title IPersonalWallet interface\r\ninterface IPersonalWallet {\r\n    /// @notice Adds new token ot the tokens array if it is not part of the array yet.\r\n    /// @dev Use containsToken mapping to check if array already contains element or not.\r\n    /// @param newToken Address of the new token to be added\r\n    function addNewToken(address newToken) external;\r\n\r\n    /// @notice Approves collateral wallet to transfer given amount of collateral.\r\n    /// @param collateralWallet Address of the collateral wallet that needs approval.\r\n    /// @param collateralToken Address of the token to be approved.\r\n    /// @param amount Amount of tokens to be approved.\r\n    function approveCollateral(address collateralWallet, address collateralToken, uint256 amount) \r\n        external;\r\n}",
+  "sourcePath": "C:\\Users\\Tomi\\OneDrive - The University of Chicago\\Documents\\Securrency\\ForwardExchange\\contracts\\personal-wallet\\interfaces\\IPersonalWallet.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/personal-wallet/interfaces/IPersonalWallet.sol",
+    "exportedSymbols": {
+      "IPersonalWallet": [
+        6291
+      ]
+    },
+    "id": 6292,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 6273,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".6"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "40:23:38"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IPersonalWallet",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 6274,
+          "nodeType": "StructuredDocumentation",
+          "src": "67:38:38",
+          "text": "@title IPersonalWallet interface"
+        },
+        "fullyImplemented": false,
+        "id": 6291,
+        "linearizedBaseContracts": [
+          6291
+        ],
+        "name": "IPersonalWallet",
+        "nameLocation": "115:15:38",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 6275,
+              "nodeType": "StructuredDocumentation",
+              "src": "138:235:38",
+              "text": "@notice Adds new token ot the tokens array if it is not part of the array yet.\n @dev Use containsToken mapping to check if array already contains element or not.\n @param newToken Address of the new token to be added"
+            },
+            "functionSelector": "64db444a",
+            "id": 6280,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addNewToken",
+            "nameLocation": "388:11:38",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6278,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6277,
+                  "mutability": "mutable",
+                  "name": "newToken",
+                  "nameLocation": "408:8:38",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6280,
+                  "src": "400:16:38",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6276,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "400:7:38",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "399:18:38"
+            },
+            "returnParameters": {
+              "id": 6279,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "426:0:38"
+            },
+            "scope": 6291,
+            "src": "379:48:38",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 6281,
+              "nodeType": "StructuredDocumentation",
+              "src": "435:290:38",
+              "text": "@notice Approves collateral wallet to transfer given amount of collateral.\n @param collateralWallet Address of the collateral wallet that needs approval.\n @param collateralToken Address of the token to be approved.\n @param amount Amount of tokens to be approved."
+            },
+            "functionSelector": "c08d1f50",
+            "id": 6290,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "approveCollateral",
+            "nameLocation": "740:17:38",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6288,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6283,
+                  "mutability": "mutable",
+                  "name": "collateralWallet",
+                  "nameLocation": "766:16:38",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6290,
+                  "src": "758:24:38",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6282,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "758:7:38",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6285,
+                  "mutability": "mutable",
+                  "name": "collateralToken",
+                  "nameLocation": "792:15:38",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6290,
+                  "src": "784:23:38",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6284,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "784:7:38",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6287,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "817:6:38",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6290,
+                  "src": "809:14:38",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6286,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "809:7:38",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "757:67:38"
+            },
+            "returnParameters": {
+              "id": 6289,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "843:0:38"
+            },
+            "scope": 6291,
+            "src": "731:113:38",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 6292,
+        "src": "105:742:38",
+        "usedErrors": []
+      }
+    ],
+    "src": "40:807:38"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/personal-wallet/interfaces/IPersonalWallet.sol",
+    "exportedSymbols": {
+      "IPersonalWallet": [
+        6291
+      ]
+    },
+    "id": 6292,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 6273,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".6"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "40:23:38"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IPersonalWallet",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 6274,
+          "nodeType": "StructuredDocumentation",
+          "src": "67:38:38",
+          "text": "@title IPersonalWallet interface"
+        },
+        "fullyImplemented": false,
+        "id": 6291,
+        "linearizedBaseContracts": [
+          6291
+        ],
+        "name": "IPersonalWallet",
+        "nameLocation": "115:15:38",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "documentation": {
+              "id": 6275,
+              "nodeType": "StructuredDocumentation",
+              "src": "138:235:38",
+              "text": "@notice Adds new token ot the tokens array if it is not part of the array yet.\n @dev Use containsToken mapping to check if array already contains element or not.\n @param newToken Address of the new token to be added"
+            },
+            "functionSelector": "64db444a",
+            "id": 6280,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addNewToken",
+            "nameLocation": "388:11:38",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6278,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6277,
+                  "mutability": "mutable",
+                  "name": "newToken",
+                  "nameLocation": "408:8:38",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6280,
+                  "src": "400:16:38",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6276,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "400:7:38",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "399:18:38"
+            },
+            "returnParameters": {
+              "id": 6279,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "426:0:38"
+            },
+            "scope": 6291,
+            "src": "379:48:38",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 6281,
+              "nodeType": "StructuredDocumentation",
+              "src": "435:290:38",
+              "text": "@notice Approves collateral wallet to transfer given amount of collateral.\n @param collateralWallet Address of the collateral wallet that needs approval.\n @param collateralToken Address of the token to be approved.\n @param amount Amount of tokens to be approved."
+            },
+            "functionSelector": "c08d1f50",
+            "id": 6290,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "approveCollateral",
+            "nameLocation": "740:17:38",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 6288,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6283,
+                  "mutability": "mutable",
+                  "name": "collateralWallet",
+                  "nameLocation": "766:16:38",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6290,
+                  "src": "758:24:38",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6282,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "758:7:38",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6285,
+                  "mutability": "mutable",
+                  "name": "collateralToken",
+                  "nameLocation": "792:15:38",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6290,
+                  "src": "784:23:38",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 6284,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "784:7:38",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 6287,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "817:6:38",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 6290,
+                  "src": "809:14:38",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 6286,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "809:7:38",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "757:67:38"
+            },
+            "returnParameters": {
+              "id": 6289,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "843:0:38"
+            },
+            "scope": 6291,
+            "src": "731:113:38",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 6292,
+        "src": "105:742:38",
+        "usedErrors": []
+      }
+    ],
+    "src": "40:807:38"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.9+commit.e5eed63a.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.3",
+  "updatedAt": "2021-09-30T21:50:57.435Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "addNewToken(address)": {
+        "details": "Use containsToken mapping to check if array already contains element or not.",
+        "params": {
+          "newToken": "Address of the new token to be added"
+        }
+      },
+      "approveCollateral(address,address,uint256)": {
+        "params": {
+          "amount": "Amount of tokens to be approved.",
+          "collateralToken": "Address of the token to be approved.",
+          "collateralWallet": "Address of the collateral wallet that needs approval."
+        }
+      }
+    },
+    "title": "IPersonalWallet interface",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "addNewToken(address)": {
+        "notice": "Adds new token ot the tokens array if it is not part of the array yet."
+      },
+      "approveCollateral(address,address,uint256)": {
+        "notice": "Approves collateral wallet to transfer given amount of collateral."
+      }
+    },
+    "version": 1
+  }
+}

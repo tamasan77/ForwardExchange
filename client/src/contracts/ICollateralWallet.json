@@ -1,0 +1,1701 @@
+{
+  "contractName": "ICollateralWallet",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "collateralOwner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "remainingBalance",
+          "type": "uint256"
+        }
+      ],
+      "name": "CollateralReturned",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "forwardContract",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "shortPersonalWallet",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "longPersonalWallet",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "collateralToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateralAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "setupInitialCollateral",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "forwardContract",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "fromShort",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "addCollateral",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "forwardContract",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "shortToLong",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferBalance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "amountOwed_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "forwardContract",
+          "type": "address"
+        },
+        {
+          "internalType": "int256",
+          "name": "contractValueChange",
+          "type": "int256"
+        }
+      ],
+      "name": "collateralMToM",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "owedAmount_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "forwardContract",
+          "type": "address"
+        }
+      ],
+      "name": "returnCollateral",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"collateralOwner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"remainingBalance\",\"type\":\"uint256\"}],\"name\":\"CollateralReturned\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"forwardContract\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"fromShort\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"addCollateral\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"forwardContract\",\"type\":\"address\"},{\"internalType\":\"int256\",\"name\":\"contractValueChange\",\"type\":\"int256\"}],\"name\":\"collateralMToM\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"owedAmount_\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"forwardContract\",\"type\":\"address\"}],\"name\":\"returnCollateral\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"forwardContract\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"shortPersonalWallet\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"longPersonalWallet\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"collateralToken\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"collateralAmount\",\"type\":\"uint256\"}],\"name\":\"setupInitialCollateral\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"forwardContract\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"shortToLong\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transferBalance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"amountOwed_\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"addCollateral(address,bool,uint256)\":{\"params\":{\"amount\":\"Amount of collateral to be transfered from personal wallet.\",\"forwardContract\":\"Address of the forward contract.\",\"fromShort\":\"Bool whether collateral is from short or long party of forward contract.\"}},\"collateralMToM(address,int256)\":{\"params\":{\"contractValueChange\":\"Change of value of forward contract during m-t--m\",\"forwardContract\":\"Address of the forward contract\"},\"returns\":{\"owedAmount_\":\"Amount owed by losing party after mToM\"}},\"returnCollateral(address)\":{\"params\":{\"forwardContract\":\"Address of the forward contract.\"}},\"setupInitialCollateral(address,address,address,address,uint256)\":{\"params\":{\"collateralAmount\":\"Amount of collateral to be transfered\",\"collateralToken\":\"Address of collateral token.\",\"forwardContract\":\"Address of forward contract\",\"longPersonalWallet\":\"Personal wallet of long party\",\"shortPersonalWallet\":\"Personal wallet of short party\"}},\"transferBalance(address,bool,uint256)\":{\"params\":{\"amount\":\"Amount to be transfered.\",\"forwardContract\":\"Address of forward contract.\",\"shortToLong\":\"Bool indicating the direction of transfer.\"},\"returns\":{\"amountOwed_\":\"Amount of collateral owed if balance insufficient.\"}}},\"title\":\"ICollateralWallet interface\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"addCollateral(address,bool,uint256)\":{\"notice\":\"Transfers collateral from personal wallet to collateral wallet.\"},\"collateralMToM(address,int256)\":{\"notice\":\"Adjusts balances of both parties according to m-to-m.\"},\"returnCollateral(address)\":{\"notice\":\"Returns collateral to long and short parties.\"},\"setupInitialCollateral(address,address,address,address,uint256)\":{\"notice\":\"Transfers initial collateral requirements from personal wallets to this wallet.\"},\"transferBalance(address,bool,uint256)\":{\"notice\":\"Transfers balance between two parties.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/collateral-wallet/interfaces/ICollateralWallet.sol\":\"ICollateralWallet\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/collateral-wallet/interfaces/ICollateralWallet.sol\":{\"keccak256\":\"0xe7cda9cbc2e446f08f7746db6fd91809a28ab143021fd6cc7d35d5e3fab590dd\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://018e05f171019b8cd1ef12b84548a00ca26cb2b6c54d70c92917c2b1e22e2f25\",\"dweb:/ipfs/QmYeQFgTioi6H6hxRR5dHE4EX7QZQf97qWVgEtKtjGhj3p\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: UNLICENSED\r\npragma solidity ^0.8.6;\r\n\r\n/// @title ICollateralWallet interface\r\ninterface ICollateralWallet {\r\n    event CollateralReturned(address collateralOwner, uint256 remainingBalance);\r\n\r\n    /// @notice Transfers initial collateral requirements from personal wallets to this wallet.\r\n    /// @param forwardContract Address of forward contract\r\n    /// @param shortPersonalWallet Personal wallet of short party\r\n    /// @param longPersonalWallet Personal wallet of long party\r\n    /// @param collateralToken Address of collateral token.\r\n    /// @param collateralAmount Amount of collateral to be transfered\r\n    function setupInitialCollateral (\r\n        address forwardContract,\r\n        address shortPersonalWallet,\r\n        address longPersonalWallet,\r\n        address collateralToken,\r\n        uint256 collateralAmount\r\n    ) external;\r\n\r\n    // Personal wallet should have approved collateral before calling add collateral\r\n    /// @notice Transfers collateral from personal wallet to collateral wallet.\r\n    /// @param forwardContract Address of the forward contract.\r\n    /// @param fromShort Bool whether collateral is from short or long party of forward contract.\r\n    /// @param amount Amount of collateral to be transfered from personal wallet.\r\n    function addCollateral(address forwardContract, bool fromShort, uint256 amount) external;\r\n\r\n    /// @notice Transfers balance between two parties.\r\n    /// @param forwardContract Address of forward contract.\r\n    /// @param shortToLong Bool indicating the direction of transfer.\r\n    /// @param amount Amount to be transfered.\r\n    /// @return amountOwed_ Amount of collateral owed if balance insufficient.\r\n    function transferBalance(address forwardContract, bool shortToLong, uint256 amount) \r\n        external \r\n        returns (uint256 amountOwed_);\r\n    \r\n    /// @notice Adjusts balances of both parties according to m-to-m.\r\n    /// @param forwardContract Address of the forward contract\r\n    /// @param contractValueChange Change of value of forward contract during m-t--m\r\n    /// @return owedAmount_ Amount owed by losing party after mToM\r\n    function collateralMToM(address forwardContract, int256 contractValueChange) \r\n        external \r\n        returns (uint256 owedAmount_);\r\n\r\n    /// @notice Returns collateral to long and short parties.\r\n    /// @param forwardContract Address of the forward contract.\r\n    function returnCollateral(address forwardContract) external;\r\n}",
+  "sourcePath": "C:\\Users\\Tomi\\OneDrive - The University of Chicago\\Documents\\Securrency\\ForwardExchange\\contracts\\collateral-wallet\\interfaces\\ICollateralWallet.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/collateral-wallet/interfaces/ICollateralWallet.sol",
+    "exportedSymbols": {
+      "ICollateralWallet": [
+        4106
+      ]
+    },
+    "id": 4107,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4046,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".6"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "40:23:22"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ICollateralWallet",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 4047,
+          "nodeType": "StructuredDocumentation",
+          "src": "67:40:22",
+          "text": "@title ICollateralWallet interface"
+        },
+        "fullyImplemented": false,
+        "id": 4106,
+        "linearizedBaseContracts": [
+          4106
+        ],
+        "name": "ICollateralWallet",
+        "nameLocation": "117:17:22",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "id": 4053,
+            "name": "CollateralReturned",
+            "nameLocation": "148:18:22",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 4052,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4049,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "collateralOwner",
+                  "nameLocation": "175:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4053,
+                  "src": "167:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4048,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "167:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4051,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "remainingBalance",
+                  "nameLocation": "200:16:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4053,
+                  "src": "192:24:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4050,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "192:7:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "166:51:22"
+            },
+            "src": "142:76:22"
+          },
+          {
+            "documentation": {
+              "id": 4054,
+              "nodeType": "StructuredDocumentation",
+              "src": "226:415:22",
+              "text": "@notice Transfers initial collateral requirements from personal wallets to this wallet.\n @param forwardContract Address of forward contract\n @param shortPersonalWallet Personal wallet of short party\n @param longPersonalWallet Personal wallet of long party\n @param collateralToken Address of collateral token.\n @param collateralAmount Amount of collateral to be transfered"
+            },
+            "functionSelector": "d01cdff2",
+            "id": 4067,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setupInitialCollateral",
+            "nameLocation": "656:22:22",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4065,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4056,
+                  "mutability": "mutable",
+                  "name": "forwardContract",
+                  "nameLocation": "698:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4067,
+                  "src": "690:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4055,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "690:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4058,
+                  "mutability": "mutable",
+                  "name": "shortPersonalWallet",
+                  "nameLocation": "732:19:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4067,
+                  "src": "724:27:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4057,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "724:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4060,
+                  "mutability": "mutable",
+                  "name": "longPersonalWallet",
+                  "nameLocation": "770:18:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4067,
+                  "src": "762:26:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4059,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "762:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4062,
+                  "mutability": "mutable",
+                  "name": "collateralToken",
+                  "nameLocation": "807:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4067,
+                  "src": "799:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4061,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "799:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4064,
+                  "mutability": "mutable",
+                  "name": "collateralAmount",
+                  "nameLocation": "841:16:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4067,
+                  "src": "833:24:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4063,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "833:7:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "679:185:22"
+            },
+            "returnParameters": {
+              "id": 4066,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "873:0:22"
+            },
+            "scope": 4106,
+            "src": "647:227:22",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 4068,
+              "nodeType": "StructuredDocumentation",
+              "src": "968:322:22",
+              "text": "@notice Transfers collateral from personal wallet to collateral wallet.\n @param forwardContract Address of the forward contract.\n @param fromShort Bool whether collateral is from short or long party of forward contract.\n @param amount Amount of collateral to be transfered from personal wallet."
+            },
+            "functionSelector": "860ffea1",
+            "id": 4077,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addCollateral",
+            "nameLocation": "1305:13:22",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4075,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4070,
+                  "mutability": "mutable",
+                  "name": "forwardContract",
+                  "nameLocation": "1327:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4077,
+                  "src": "1319:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4069,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1319:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4072,
+                  "mutability": "mutable",
+                  "name": "fromShort",
+                  "nameLocation": "1349:9:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4077,
+                  "src": "1344:14:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 4071,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1344:4:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4074,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "1368:6:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4077,
+                  "src": "1360:14:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4073,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1360:7:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1318:57:22"
+            },
+            "returnParameters": {
+              "id": 4076,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1384:0:22"
+            },
+            "scope": 4106,
+            "src": "1296:89:22",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 4078,
+              "nodeType": "StructuredDocumentation",
+              "src": "1393:310:22",
+              "text": "@notice Transfers balance between two parties.\n @param forwardContract Address of forward contract.\n @param shortToLong Bool indicating the direction of transfer.\n @param amount Amount to be transfered.\n @return amountOwed_ Amount of collateral owed if balance insufficient."
+            },
+            "functionSelector": "c282bc0e",
+            "id": 4089,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "transferBalance",
+            "nameLocation": "1718:15:22",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4085,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4080,
+                  "mutability": "mutable",
+                  "name": "forwardContract",
+                  "nameLocation": "1742:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4089,
+                  "src": "1734:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4079,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1734:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4082,
+                  "mutability": "mutable",
+                  "name": "shortToLong",
+                  "nameLocation": "1764:11:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4089,
+                  "src": "1759:16:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 4081,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1759:4:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4084,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "1785:6:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4089,
+                  "src": "1777:14:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4083,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1777:7:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1733:59:22"
+            },
+            "returnParameters": {
+              "id": 4088,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4087,
+                  "mutability": "mutable",
+                  "name": "amountOwed_",
+                  "nameLocation": "1839:11:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4089,
+                  "src": "1831:19:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4086,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1831:7:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1830:21:22"
+            },
+            "scope": 4106,
+            "src": "1709:143:22",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 4090,
+              "nodeType": "StructuredDocumentation",
+              "src": "1864:283:22",
+              "text": "@notice Adjusts balances of both parties according to m-to-m.\n @param forwardContract Address of the forward contract\n @param contractValueChange Change of value of forward contract during m-t--m\n @return owedAmount_ Amount owed by losing party after mToM"
+            },
+            "functionSelector": "504a2b32",
+            "id": 4099,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "collateralMToM",
+            "nameLocation": "2162:14:22",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4095,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4092,
+                  "mutability": "mutable",
+                  "name": "forwardContract",
+                  "nameLocation": "2185:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4099,
+                  "src": "2177:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4091,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2177:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4094,
+                  "mutability": "mutable",
+                  "name": "contractValueChange",
+                  "nameLocation": "2209:19:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4099,
+                  "src": "2202:26:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 4093,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2202:6:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2176:53:22"
+            },
+            "returnParameters": {
+              "id": 4098,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4097,
+                  "mutability": "mutable",
+                  "name": "owedAmount_",
+                  "nameLocation": "2276:11:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4099,
+                  "src": "2268:19:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4096,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2268:7:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2267:21:22"
+            },
+            "scope": 4106,
+            "src": "2153:136:22",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 4100,
+              "nodeType": "StructuredDocumentation",
+              "src": "2297:122:22",
+              "text": "@notice Returns collateral to long and short parties.\n @param forwardContract Address of the forward contract."
+            },
+            "functionSelector": "daf2fd58",
+            "id": 4105,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "returnCollateral",
+            "nameLocation": "2434:16:22",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4103,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4102,
+                  "mutability": "mutable",
+                  "name": "forwardContract",
+                  "nameLocation": "2459:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4105,
+                  "src": "2451:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4101,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2451:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2450:25:22"
+            },
+            "returnParameters": {
+              "id": 4104,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2484:0:22"
+            },
+            "scope": 4106,
+            "src": "2425:60:22",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 4107,
+        "src": "107:2381:22",
+        "usedErrors": []
+      }
+    ],
+    "src": "40:2448:22"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/contracts/collateral-wallet/interfaces/ICollateralWallet.sol",
+    "exportedSymbols": {
+      "ICollateralWallet": [
+        4106
+      ]
+    },
+    "id": 4107,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4046,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".6"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "40:23:22"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ICollateralWallet",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 4047,
+          "nodeType": "StructuredDocumentation",
+          "src": "67:40:22",
+          "text": "@title ICollateralWallet interface"
+        },
+        "fullyImplemented": false,
+        "id": 4106,
+        "linearizedBaseContracts": [
+          4106
+        ],
+        "name": "ICollateralWallet",
+        "nameLocation": "117:17:22",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "id": 4053,
+            "name": "CollateralReturned",
+            "nameLocation": "148:18:22",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 4052,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4049,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "collateralOwner",
+                  "nameLocation": "175:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4053,
+                  "src": "167:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4048,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "167:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4051,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "remainingBalance",
+                  "nameLocation": "200:16:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4053,
+                  "src": "192:24:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4050,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "192:7:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "166:51:22"
+            },
+            "src": "142:76:22"
+          },
+          {
+            "documentation": {
+              "id": 4054,
+              "nodeType": "StructuredDocumentation",
+              "src": "226:415:22",
+              "text": "@notice Transfers initial collateral requirements from personal wallets to this wallet.\n @param forwardContract Address of forward contract\n @param shortPersonalWallet Personal wallet of short party\n @param longPersonalWallet Personal wallet of long party\n @param collateralToken Address of collateral token.\n @param collateralAmount Amount of collateral to be transfered"
+            },
+            "functionSelector": "d01cdff2",
+            "id": 4067,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setupInitialCollateral",
+            "nameLocation": "656:22:22",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4065,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4056,
+                  "mutability": "mutable",
+                  "name": "forwardContract",
+                  "nameLocation": "698:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4067,
+                  "src": "690:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4055,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "690:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4058,
+                  "mutability": "mutable",
+                  "name": "shortPersonalWallet",
+                  "nameLocation": "732:19:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4067,
+                  "src": "724:27:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4057,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "724:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4060,
+                  "mutability": "mutable",
+                  "name": "longPersonalWallet",
+                  "nameLocation": "770:18:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4067,
+                  "src": "762:26:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4059,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "762:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4062,
+                  "mutability": "mutable",
+                  "name": "collateralToken",
+                  "nameLocation": "807:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4067,
+                  "src": "799:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4061,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "799:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4064,
+                  "mutability": "mutable",
+                  "name": "collateralAmount",
+                  "nameLocation": "841:16:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4067,
+                  "src": "833:24:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4063,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "833:7:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "679:185:22"
+            },
+            "returnParameters": {
+              "id": 4066,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "873:0:22"
+            },
+            "scope": 4106,
+            "src": "647:227:22",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 4068,
+              "nodeType": "StructuredDocumentation",
+              "src": "968:322:22",
+              "text": "@notice Transfers collateral from personal wallet to collateral wallet.\n @param forwardContract Address of the forward contract.\n @param fromShort Bool whether collateral is from short or long party of forward contract.\n @param amount Amount of collateral to be transfered from personal wallet."
+            },
+            "functionSelector": "860ffea1",
+            "id": 4077,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addCollateral",
+            "nameLocation": "1305:13:22",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4075,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4070,
+                  "mutability": "mutable",
+                  "name": "forwardContract",
+                  "nameLocation": "1327:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4077,
+                  "src": "1319:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4069,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1319:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4072,
+                  "mutability": "mutable",
+                  "name": "fromShort",
+                  "nameLocation": "1349:9:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4077,
+                  "src": "1344:14:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 4071,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1344:4:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4074,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "1368:6:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4077,
+                  "src": "1360:14:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4073,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1360:7:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1318:57:22"
+            },
+            "returnParameters": {
+              "id": 4076,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1384:0:22"
+            },
+            "scope": 4106,
+            "src": "1296:89:22",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 4078,
+              "nodeType": "StructuredDocumentation",
+              "src": "1393:310:22",
+              "text": "@notice Transfers balance between two parties.\n @param forwardContract Address of forward contract.\n @param shortToLong Bool indicating the direction of transfer.\n @param amount Amount to be transfered.\n @return amountOwed_ Amount of collateral owed if balance insufficient."
+            },
+            "functionSelector": "c282bc0e",
+            "id": 4089,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "transferBalance",
+            "nameLocation": "1718:15:22",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4085,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4080,
+                  "mutability": "mutable",
+                  "name": "forwardContract",
+                  "nameLocation": "1742:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4089,
+                  "src": "1734:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4079,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1734:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4082,
+                  "mutability": "mutable",
+                  "name": "shortToLong",
+                  "nameLocation": "1764:11:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4089,
+                  "src": "1759:16:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 4081,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1759:4:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4084,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "1785:6:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4089,
+                  "src": "1777:14:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4083,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1777:7:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1733:59:22"
+            },
+            "returnParameters": {
+              "id": 4088,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4087,
+                  "mutability": "mutable",
+                  "name": "amountOwed_",
+                  "nameLocation": "1839:11:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4089,
+                  "src": "1831:19:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4086,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1831:7:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1830:21:22"
+            },
+            "scope": 4106,
+            "src": "1709:143:22",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 4090,
+              "nodeType": "StructuredDocumentation",
+              "src": "1864:283:22",
+              "text": "@notice Adjusts balances of both parties according to m-to-m.\n @param forwardContract Address of the forward contract\n @param contractValueChange Change of value of forward contract during m-t--m\n @return owedAmount_ Amount owed by losing party after mToM"
+            },
+            "functionSelector": "504a2b32",
+            "id": 4099,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "collateralMToM",
+            "nameLocation": "2162:14:22",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4095,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4092,
+                  "mutability": "mutable",
+                  "name": "forwardContract",
+                  "nameLocation": "2185:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4099,
+                  "src": "2177:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4091,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2177:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4094,
+                  "mutability": "mutable",
+                  "name": "contractValueChange",
+                  "nameLocation": "2209:19:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4099,
+                  "src": "2202:26:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_int256",
+                    "typeString": "int256"
+                  },
+                  "typeName": {
+                    "id": 4093,
+                    "name": "int256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2202:6:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_int256",
+                      "typeString": "int256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2176:53:22"
+            },
+            "returnParameters": {
+              "id": 4098,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4097,
+                  "mutability": "mutable",
+                  "name": "owedAmount_",
+                  "nameLocation": "2276:11:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4099,
+                  "src": "2268:19:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 4096,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2268:7:22",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2267:21:22"
+            },
+            "scope": 4106,
+            "src": "2153:136:22",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "documentation": {
+              "id": 4100,
+              "nodeType": "StructuredDocumentation",
+              "src": "2297:122:22",
+              "text": "@notice Returns collateral to long and short parties.\n @param forwardContract Address of the forward contract."
+            },
+            "functionSelector": "daf2fd58",
+            "id": 4105,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "returnCollateral",
+            "nameLocation": "2434:16:22",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4103,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4102,
+                  "mutability": "mutable",
+                  "name": "forwardContract",
+                  "nameLocation": "2459:15:22",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4105,
+                  "src": "2451:23:22",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4101,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2451:7:22",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2450:25:22"
+            },
+            "returnParameters": {
+              "id": 4104,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2484:0:22"
+            },
+            "scope": 4106,
+            "src": "2425:60:22",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 4107,
+        "src": "107:2381:22",
+        "usedErrors": []
+      }
+    ],
+    "src": "40:2448:22"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.9+commit.e5eed63a.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.3",
+  "updatedAt": "2021-09-30T21:50:57.284Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "addCollateral(address,bool,uint256)": {
+        "params": {
+          "amount": "Amount of collateral to be transfered from personal wallet.",
+          "forwardContract": "Address of the forward contract.",
+          "fromShort": "Bool whether collateral is from short or long party of forward contract."
+        }
+      },
+      "collateralMToM(address,int256)": {
+        "params": {
+          "contractValueChange": "Change of value of forward contract during m-t--m",
+          "forwardContract": "Address of the forward contract"
+        },
+        "returns": {
+          "owedAmount_": "Amount owed by losing party after mToM"
+        }
+      },
+      "returnCollateral(address)": {
+        "params": {
+          "forwardContract": "Address of the forward contract."
+        }
+      },
+      "setupInitialCollateral(address,address,address,address,uint256)": {
+        "params": {
+          "collateralAmount": "Amount of collateral to be transfered",
+          "collateralToken": "Address of collateral token.",
+          "forwardContract": "Address of forward contract",
+          "longPersonalWallet": "Personal wallet of long party",
+          "shortPersonalWallet": "Personal wallet of short party"
+        }
+      },
+      "transferBalance(address,bool,uint256)": {
+        "params": {
+          "amount": "Amount to be transfered.",
+          "forwardContract": "Address of forward contract.",
+          "shortToLong": "Bool indicating the direction of transfer."
+        },
+        "returns": {
+          "amountOwed_": "Amount of collateral owed if balance insufficient."
+        }
+      }
+    },
+    "title": "ICollateralWallet interface",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "addCollateral(address,bool,uint256)": {
+        "notice": "Transfers collateral from personal wallet to collateral wallet."
+      },
+      "collateralMToM(address,int256)": {
+        "notice": "Adjusts balances of both parties according to m-to-m."
+      },
+      "returnCollateral(address)": {
+        "notice": "Returns collateral to long and short parties."
+      },
+      "setupInitialCollateral(address,address,address,address,uint256)": {
+        "notice": "Transfers initial collateral requirements from personal wallets to this wallet."
+      },
+      "transferBalance(address,bool,uint256)": {
+        "notice": "Transfers balance between two parties."
+      }
+    },
+    "version": 1
+  }
+}
