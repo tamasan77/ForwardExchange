@@ -37,7 +37,8 @@ contract PersonalWallet is Pausable, Ownable, IPersonalWallet {
     /// @param collateralToken Address of the token to be approved.
     /// @param amount Amount of tokens to be approved.
     function approveCollateral(address collateralWallet, address collateralToken, uint256 amount)
-        private 
+        public 
+        override
         onlyOwner 
     {
         require(containsTokens[collateralToken], "coll token err");
