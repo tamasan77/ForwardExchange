@@ -37,8 +37,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -51,8 +50,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -3348,13 +3346,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x9965177B48D8b2f0dE67b7A9Dd2bc76d274FBB1F",
-      "transactionHash": "0xdad929e1eb770568cf4d637b6215465f1d03350b59c78dc82a2eb06b31b81989"
+      "address": "0x4d7c87DA097386C852Bdf767d81a02879A5B8fe2",
+      "transactionHash": "0xa3a76a4bbb806fdbf025c06639133c1223905dd6feeec6cdfe4c0b121fd81323"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-09-30T21:51:06.836Z",
-  "networkType": "ethereum",
+  "updatedAt": "2021-09-30T22:29:53.709Z",
   "devdoc": {
     "author": "Tamas An",
     "kind": "dev",

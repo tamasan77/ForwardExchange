@@ -37,8 +37,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -4115,13 +4114,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x3C8dBFF58794Ad0095A820b805e1a2F6b86a7843",
-      "transactionHash": "0xae82f019d7d3c8bc3110c6860b983894157b696305323984e64582f8e35ee070"
+      "address": "0xd8E7dC6a832338822a0BD37dF016c7D13E45ba3E",
+      "transactionHash": "0xfa40112b9ef245e23f20c5df0de5589a6cf843ef49bb7443fe9b56d5a092f966"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-09-30T21:51:06.798Z",
-  "networkType": "ethereum",
+  "updatedAt": "2021-09-30T22:29:53.878Z",
   "devdoc": {
     "author": "Tamas An",
     "kind": "dev",
