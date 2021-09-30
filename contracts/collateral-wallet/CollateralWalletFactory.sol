@@ -9,18 +9,15 @@ import "./interfaces/ICollateralWalletFactory.sol";
 /// @notice Factory for creating and storing collateral wallets
 contract CollateralWalletFactory is ICollateralWalletFactory{
     address[] public collateralWallets;
+    address public testAddress;
 
     /// @notice Creates new collateral wallet with given name and owner.
     /// @param _walletName name of wallet
-    /// @return collateralWalletAddress_ Address of collateral wallet
-    function createCollateralWallet(string memory _walletName) 
-        external
-        override
-        returns (address collateralWalletAddress_) 
+    function createCollateralWallet(string memory _walletName) external override
     {
-        collateralWalletAddress_ = address(new CollateralWallet(_walletName));
+        address collateralWalletAddress_ = address(new CollateralWallet(_walletName));
         collateralWallets.push(collateralWalletAddress_);
-        emit CreatedWallet(_walletName);
+        emit CreatedWallet(_walletName, collateralWalletAddress_);
     }
 
 }

@@ -13,14 +13,13 @@ contract PersonalWalletFactory is IPersonalWalletFactory{
     /// @notice Creates Personal Wallet
     /// @param walletOwner Address of the owner of the wallet
     /// @param walletName Name of the wallet
-    /// @return personalWallet_ Address of the newly created wallet.
     function createPersonalWallet(address walletOwner, string memory walletName) 
         external 
-        returns (address personalWallet_) 
+        override
     {
         require(bytes(walletName).length != 0, "name empty");
-        personalWallet_ = address(new PersonalWallet(walletName,walletOwner));
+        address personalWallet_ = address(new PersonalWallet(walletName,walletOwner));
         personalWallets.push(personalWallet_);
-        emit WalletCreated(walletOwner);
+        emit WalletCreated(walletOwner, personalWallet_);
     }
 }
