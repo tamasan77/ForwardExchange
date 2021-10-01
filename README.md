@@ -29,3 +29,16 @@ The Forward Factory is used to deploy customized Forward Contracts.
 The Forward Contract smart contract contain all necessary functionalities that 
 are needed during the life-cycle of the forward, including *Initiation*, *Mark to Market*, *Default* and *Settlement*.
 
+# Systems Architecture Workflows
+1. The Forward Contract is created through the Forward Contract Factory with the following parameters:
+  1. Name
+  2. Symbol
+  3. 
+
+2. Each user creates a Personal Wallet using the Personal Wallet Factory
+
+2. The users then add and transfer the ERC20 tokens to their Personal Wallets that will be used as collateral
+
+3.  The users agree on a Collateral Wallet to use
+
+4. 
